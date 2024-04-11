@@ -1,0 +1,17 @@
+((c) cls (c -> cls @)) $ @
+
+A Ratify interpreter
+
+( ((ps fn cs fc)) get_fn
+	###
+
+( ((first second body last) (env) (processed)) rata
+	((@ second body last) (env) (processed) ->
+		(second body last) (env) (processed (env) get_fn @) @ reorder @ reprocess @)
+	(($ @ body last) (env) (processed) ->
+		(body last) (env) (processed) reorder @ updateENV @ rata @)
+	(() (env) (processed) -> processed)
+	((first) (env) (processed) -> processed first)
+	(-> (second body last) (env) (processed first) rata @)) $ @
+
+( ((exprs) (env)) ratify ( cls @ ((exprs) (env) () rata @) @ )) $ @

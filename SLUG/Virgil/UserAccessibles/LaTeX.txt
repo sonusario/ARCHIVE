@@ -1,0 +1,10 @@
+%:|:Comment line
+\:|:Start of a LaTeX command
+\documentclass[12pt]{article}:|:Defines a document of type article with 12pt font
+\usepackage{}:|:Adds package to enhance capailities of LaTeX
+float and caption:|:Packages used for figures
+hyperref:|:Package used for hyperlinks
+\author{}:|:Writes the specified author
+\date:|:Writes the specified date
+\today:|:Specifies today's date
+\title

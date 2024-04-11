@@ -1,0 +1,22 @@
+>>> [(0)
+     (n)
+     FAC
+     (1)
+     (n n 1 - @ FAC @ * @)
+    ]
+
+>>> [(dta nxt) node $ ([data dta] [next nxt])]
+>>> [x 3 () node @]
+>>> [x.next 2 () node @]
+
+>>> x.data
+3
+
+>>> x.next.data
+2
+
+>>> x.next
+(2 ())
+
+>>> x
+(3 2 ())

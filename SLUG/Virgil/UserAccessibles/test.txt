@@ -1,0 +1,5 @@
+hello:|:world
+2:|:smallest prime number
+not in cruelty:|:not in wrath
+lamb:|:mary had a little
+pt:|:better than fib

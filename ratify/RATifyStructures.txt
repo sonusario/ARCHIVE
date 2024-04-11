@@ -1,0 +1,66 @@
+<any> -> <emt>
+<any> -> <wrd>
+<any> -> (<tls>)
+<tls> -> (<tls>)
+<tls> -> <tls> <tls>
+<tls> -> <emt>
+<tls> -> <wrd>
+<tls> -> <lst>
+<lst> -> <emt>
+<lst> -> <wrd>
+<lst> -> <lst> <lst>
+
+<any> -> <emt>
+<any> -> <wrd>
+<any> -> <crz>
+
+<crz> -> <phr>
+<crz> -> <cmp>
+<crz> -> (<crz>)
+<crz> -> <crz> <crz>
+
+<cmp> -> <wrd>
+<cmp> -> (<crz>)
+
+<phr> -> <wrd>
+<phr> -> <phr> <phr>
+
+
+.  -> <empty>
+.  -> ..
+..   -> <str>
+..   -> (...)
+...  -> (...)
+...  -> ... ...
+...  -> <str>
+
+...  -> ....
+.... -> .... ....
+.... -> <str>
+
+where nonterminals are {.,..,...,....}
+and terminals are {(,),<str>,<empty>}
+
+produce "(... <str> ...)" from .
+    .
+    ..
+    (...)
+    (... ...)
+    (... ... ...)
+    (... <str> ...)
+
+//Also
+
+GOD -> <empty>
+GOD -> ANG
+ANG -> <str>
+ANG -> (ARC)
+ARC -> (ARC)
+ARC -> ARC ARC
+ARC -> <str>
+
+ARC -> LIN
+LIN -> LIN LIN
+LIN -> <str>
+
+[(n\{>0}) fac (\#0 \#0 1 -@ fac@ *@) (1)]

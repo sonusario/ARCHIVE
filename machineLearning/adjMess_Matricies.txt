@@ -1,0 +1,31 @@
+#'4 HI'
+verts = np.array([45, 59, 92, 28])
+edges = np.array([[-0.60412064,  0.68080275,  0.88465989,  0.46449478],
+                  [-0.04580633, -0.66807341, -0.07445432, -0.87957225],
+                  [ 0.7928179 , -0.59544587,  0.88717263,  0.60240025],
+                  [-0.82712062,  0.23634083,  0.67249292, -0.7291848 ]])
+
+#'4 Hi'
+verts = np.array([ 70.,  94.,  32.])
+edges = np.array([[-0.03293407, -0.96962078,  0.64047821],
+                  [ 0.02372134, -0.59005095, -0.34069917],
+                  [ 0.62423652, -0.66398899, -0.16651369]])
+
+verts = np.array([-309,    3])
+edges = np.array([[-0.68074458, -0.8130607 ],
+                  [-0.18648398,  0.54440227]])
+
+def getMatMess(verts, edges):
+    nodes = np.copy(verts)
+    lines = np.copy(edges)
+    message = ''
+    messLen = 77
+    i = 0
+    while i < messLen:
+        nodes = np.round(np.matmul(nodes,lines))
+        cn = int(nodes[0])%95
+        if cn == 0:
+            messLen = int(message)
+        message += chr(cn+32)
+        i += 1
+    return message

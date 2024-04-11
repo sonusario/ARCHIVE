@@ -1,0 +1,29 @@
+(() do-nothing ()) -> @
+
+(((f b l)) last (l)) -> @
+
+(((f s b l) A B C) spec?
+	((f -> b l) -> A @)
+	((f s b \l) -> B @)
+	(           -> C @)) -> @
+
+((prgm env (rf rb rl)) run-guard (prgm env (rf rb \rl env -> @ -> -> @) @)) -> @
+
+((prgm env (rf rb rl)) anon-run-guard (prgm env (rf rb \rl -> -> @) @)) -> @
+
+((prgm env (rf rb rl)) get-def
+	(\ \ (\rf rb ->) -> prgm env (\rf rb) (\rf rb) last @ anon-run-guard do-nothing run-guard spec? @)
+	(                -> prgm env (rf rb \rl env -> @) @ name-swap @)) -> @
+
+((prgm env (rf rb rl)) anon-run (prgm env (rf rb \rl -> -> @) @ unguard @)) -> @
+
+((prgm (ep efn econds elcond) (rf rb (p fn conds lcond))) define (prgm (ep efn (fn -> (p -> conds lcond)) econds \elcond) (\rf rb))) -> @
+
+((prgm env (rf rb rl)) run
+	(\ \ (\rf rb ->) -> prgm env (\rf rb) (\rf rb) last @ anon-run define get-def spec? @)
+	(                 -> prgm env (rf rb \rl env -> @ -> -> @) @ unguard @)) -> @
+
+(((f r) env (rf rb rl)) ratify
+	(( ) \ \ -> (rf rb \rl))
+	((@) \ \ -> (r) env (rf rb \rl) rl atify atify run spec? @ ratify @)
+	(        -> (r) env (rf rb \rl f) ratify @)) -> @

@@ -1,0 +1,37 @@
+TRUE = lambda x: lambda y: x
+FALSE = lambda x: lambda y: y
+
+NOT = lambda b: b(FALSE)(TRUE)
+AND = lambda p: lambda q: p(q)(p)
+OR = lambda p: lambda q: p(p)(q)
+
+NAND = lambda p: lambda q: NOT(AND(p)(q))
+NOR = lambda p: lambda q: NOT(OR(p)(q))
+
+NAND2 = lambda p: lambda q: p(q)(p)(FALSE)(TRUE)
+
+print(TRUE(1)(0))
+print(FALSE(1)(0))
+print()
+print(NOT(TRUE)(1)(0))
+print(NOT(FALSE)(1)(0))
+print()
+print(AND(FALSE)(FALSE)(1)(0))
+print(AND(FALSE)(TRUE)(1)(0))
+print(AND(TRUE)(FALSE)(1)(0))
+print(AND(TRUE)(TRUE)(1)(0))
+print()
+print(OR(FALSE)(FALSE)(1)(0))
+print(OR(FALSE)(TRUE)(1)(0))
+print(OR(TRUE)(FALSE)(1)(0))
+print(OR(TRUE)(TRUE)(1)(0))
+print()
+print(NAND(FALSE)(FALSE)(1)(0))
+print(NAND(FALSE)(TRUE)(1)(0))
+print(NAND(TRUE)(FALSE)(1)(0))
+print(NAND(TRUE)(TRUE)(1)(0))
+print()
+print(NOR(FALSE)(FALSE)(1)(0))
+print(NOR(FALSE)(TRUE)(1)(0))
+print(NOR(TRUE)(FALSE)(1)(0))
+print(NOR(TRUE)(TRUE)(1)(0))

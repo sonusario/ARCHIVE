@@ -1,0 +1,29 @@
+//assume list_and_last
+//assume cons
+
+((n1 n2) add (n1 n2 bin_sm_adder @)) def @
+((n1 n2) bin_sm_adder (() n1 list_and_last @ n2 list_and_last @ bsma_a @)) def @
+
+((n1n2 new_n1 0 new_n2 0)
+ (n1n2 new_n1 0 new_n2 1)
+ (n1n2 new_n1 1 new_n2 0)
+ (n1n2 new_n1 1 new_n2 1)
+ bsma_a
+ (0 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_a @)
+ (1 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_a @)
+ (1 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_a @)
+ (0 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_b @)
+ (n1n2)
+) def @
+
+((n1n2 new_n1 0 new_n2 0)
+ (n1n2 new_n1 0 new_n2 1)
+ (n1n2 new_n1 1 new_n2 0)
+ (n1n2 new_n1 1 new_n2 1)
+ bsma_b
+ (1 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_a @)
+ (0 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_b @)
+ (0 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_b @)
+ (1 n1n2 cons @ new_n1 list_and_last @ new_n2 list_and_last @ bsma_b @)
+ (1 n1n2 cons @)
+) def @

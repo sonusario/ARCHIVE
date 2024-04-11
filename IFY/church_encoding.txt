@@ -1,0 +1,38 @@
+((c) cls (cls @)) $
+((x f) 0 (x)) $
+((x f n) succ (x f n @ f)) $
+
+((x f) 1 (x f)) $
+((x f) 2 (x f f)) $
+((x f) 3 (x f f f)) $
+
+((x f m n) add (x f n @ f m @)) $
+((x f m n) mul (x (f n @) m @)) $
+
+((x f m n) mul (x
+		(() -> ( @ (() -> (f n @)) @ ))
+		m @ @)) $
+
+((x f m n) mul (x f f 0 (() -> (@ n add @)) m @ @)) $
+
+=====
+
+(() 0 (x))
+((n) +1 (n @ f))
+
+((a b) 1 (0 +1 @))
+((a b) 2 (1 +1 @))
+((a b) 3 (2 +1 @))
+
+((m n) add (n @ m @))
+
+=============
+
+
+((x y) T (x)) $
+((x y) F (y)) $
+((c) cls (cls @)) $
+((p q) NAND (F T p @ T q @)) $
+((fn) two_bit_test (cls @ F F fn @ | F T fn @ | T F fn @ | T T fn @)) $
+((b) NOT (b b NAND @)) $
+((fn) one_bit_test (cls @ F fn @ | T fn @)) $

@@ -1,0 +1,206 @@
+from copy import deepcopy as copy
+import re
+
+'''
+=======
+Implemented
+---
+['@','->','-->','cls']
+=======
+'''
+
+def Error(msg):
+    print("IFY> " + msg)
+    return True
+
+def tokenize(rawtxt):
+    t0 = rawtxt.replace('(', ' ( ').replace(')', ' ) ')
+    t1 = t0.replace('@', ' @ ').replace('-->', ' --> ')
+    t2 = re.sub(r"[^-]->", (lambda x: x.group(0)[0] + ' -> '), t1)
+    tokens = t2.split()
+    return tokens
+
+def listify(tokens, recFlag=False):
+    program = []
+    errFlag = False
+    while len(tokens) > 0:
+        token = tokens.pop(0)
+
+        if token == '(':
+            program.append(listify(tokens, True))
+        elif token == ')':
+            if recFlag:
+                return program
+            errFlag = Error("Unexpected ')'!")
+            return [],errFlag
+        else:
+            program.append(token)
+    if recFlag:
+        errFlag = Error("Unexpected EOF. Expected more ')'s!")
+        return [],errFlag
+    
+    return program, errFlag
+
+def read():
+    content = []
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        content.append(line)
+    return listify(tokenize(' '.join(content)))
+
+#===============================================================================
+
+def fn_replace(defined, fname):
+    function = [fname]
+    if type(fname) == type([]):
+        return [],Error("Expected function name. Got LIST")
+    elif fname in ['@','->','-->']:
+        return [],Error("Expected function name. Got " + fname)
+    elif fname in defined:
+        function = copy(defined[fname])
+    return function,False
+
+def verify(defined, input_spec, tokens):
+    for item in input_spec:
+        if type(item) == type([]):
+            return [],False,Error("Parameters cannot be of type LIST!")
+        elif item in ['@','->','-->','cls']:
+            return [],False,Error("'" + item +
+                                  "' cannot be used as a parameter!")
+    callFlag = tokens.pop(0) == '-->'
+    fname = '-->'
+    if not callFlag:
+        if tokens == []:
+            return [],False,Error("Expected function name. Found NOTHING.")
+        fname = tokens.pop(0)
+        if type(fname) == type([]):
+            return [],False,Error("Expected function name. Got LIST")
+        elif fname in ['@','->','-->','cls']:
+            return [],False,Error("'" + fname +
+                                  "' cannot be used as a function name!")
+        elif tokens == []:
+            return [],False,Error("Expected ->. Found NOTHING.")
+        tmp = tokens.pop(0)
+        if tmp != '->':
+            return [],False,Error("Expected ->. Got " + str(tmp))
+        
+    if tokens == []:
+        return [],False,Error("Expected output LIST. Found NOTHING.")
+
+    output_spec = tokens.pop(0)
+    if type(output_spec) != type([]):
+        return [],False,Error("Expected output LIST. Got " + output_spec)
+
+    if not callFlag:
+        defined[fname] = [input_spec] + ['-->'] + [output_spec]
+    return output_spec,callFlag,False
+
+def replace_params(vLUT, output_spec):
+    replacement_list = []
+    for item in output_spec:
+        if type(item) == type([]):
+            replacement_list.append(replace_params(vLUT,item))
+        elif item in vLUT:
+            replacement_list.append(vLUT[item])
+        else:
+            replacement_list.append(item)
+    return replacement_list
+
+def fn_call(stack,input_spec,output_spec):
+    pCount = len(input_spec)
+    vals = []
+    while len(vals) < pCount and len(stack) > 0:
+        vals.insert(0,stack.pop(-1))
+    if len(vals) != pCount:
+        return [],Error("Not enough values for function. Expected " +
+                        str(pCount) + ". Got " + str(len(vals)) + ".")
+    vLUT = {}
+    for i in range(pCount):
+        vLUT[input_spec[i]] = vals[i]
+    output = replace_params(vLUT,output_spec)
+    return output,False
+
+def fn_handler(defined, stack, input_spec, tokens, callFlag):
+    errFlag = False
+    if not callFlag:
+        if tokens == []:
+            return [],Error("Expected '->' or '-->'. Found NOTHING.")
+        elif tokens[0] not in ['->','-->']:
+            return [],Error("Expected '->' or '-->'. Found " + tokens[0] + ".")
+        else:
+            output_spec,callFlag,errFlag = verify(defined,input_spec,tokens)
+    else:
+        tmp = tokens.pop(0)
+        output_spec = tokens.pop(0)
+    if errFlag:
+        return [],errFlag
+    elif not callFlag:
+        return [],errFlag
+    return fn_call(stack,input_spec,output_spec)
+
+def prepender(pre_tokens,tokens):
+    while len(pre_tokens) > 0:
+        tokens.insert(0,pre_tokens.pop(-1))
+    return
+
+def evaluate(defined, stack, tokens):
+    errFlag = False
+    callFlag = False
+    while len(tokens) > 0 and not errFlag:
+        token = tokens.pop(0)
+        if token == '@':
+            if stack == []:
+                errFlag = Error("No function given to '@'!")
+                continue
+            elif stack[-1] == "cls":
+                stack = []
+            else:
+                prepend_tokens,errFlag = fn_replace(defined,stack.pop(-1))
+                if errFlag: continue
+                prepender(prepend_tokens,tokens)
+                callFlag = True
+        elif type(token) == type([]):
+            prepend_tokens,errFlag = fn_handler(defined,stack,token,
+                                                tokens,callFlag)
+            prepender(prepend_tokens,tokens)
+            callFlag = False
+        else:
+            stack.append(token)
+    return {"defined":defined, "stack":stack, "errFlag":errFlag}
+
+#===============================================================================
+
+def format_stack(stack):
+    txt = ""
+    for item in stack:
+        if type(item) == type([]):
+            txt += '( '
+            txt += format_stack(item)
+            txt += ') '
+        else:
+            txt += item + ' '
+    return txt
+
+def repl():
+    defined = {}
+    stack = []
+    while True:
+        print("-------<<<INPUT>>>-------",
+              " "*15, "(Write code, press Enter, then Ctrl-d)")
+        program,errFlag = read()
+        if errFlag: continue
+        new_data = evaluate(copy(defined),copy(stack),program)
+        if new_data["errFlag"]:
+            continue
+        else:
+            defined = new_data["defined"]
+            stack = new_data["stack"]
+        print("-------<<<STACK>>>-------")
+        print(format_stack(stack))
+        print("\n\n\n")
+    return
+
+repl()

@@ -1,0 +1,98 @@
+@
+(
+)
+$
+->
+<emt>
+<wrd>
+\
+TODO % /% /@ # and <- //regex?
+
+A <structure> instead of var names indicates there may be a variable number of inputs
+
+(<any>
+	(-> <emt>)
+	(-> <cop>)) $
+
+(<cop>
+	(-> <cop> <cop>)
+	(-> <cmp>)
+	(-> <phr>)) $
+
+(<cmp>
+	(-> <wrd>)
+	(-> (<cop>))) $
+
+(<phr>
+	(-> <wrd>)
+	(-> <phr> <phr>)) $
+
+(<lst>
+	(-> (<any>))
+	(-> <lst> <lst>)) $
+
+(<lol>
+	(-> (<lst>))) $
+
+(<prt>
+	(-> ((<cop>) <cmp>))
+	(-> <prt> <prt>)) $
+
+(<cnd>
+	(-> (<prt>))) $
+
+(F (x y -> x @)) $
+
+(T (x y -> y @)) $
+
+(quote (x -> x)) $
+
+(atom (x ->
+	(<wrd> -> T) 
+	(-> F))) $
+
+(atom (x -> x <wrd> @)) $
+
+(eq (a b ->
+	(b a -> T)
+	(-> F))) $
+
+(first ((f r) ->
+	((<cmp> <any>) -> f)
+	((<any>) -> nil))) $
+
+(rest ((f r) ->
+	((<cmp> <any>) -> (r))
+	((<any>) -> ()))) $
+
+(cons (f (r) ->
+	(<cmp> (<any>) -> (f r)))) $
+
+(cons (f lst ->
+	(<cmp> (<any>) -> (f lst @)))) $
+
+(cond (lst -> 
+	(<cmp> ->
+		(lst rest @ cond @)
+		(lst first @ rest @ @)
+		lst first @ first @ @ @ ))) $
+
+ASSUME < and -
+
+(fac (n ->
+	(0 -> 1)
+	(-> n n 1 - @ fac @ * @))) $
+
+(fac (n ->
+	(0 -> 1)
+	(-> n n 1 (-) (+) n 0 < @ @ fac @ * @))) $
+
+(print_fac (n -> n fac => n fac @)) $
+
+(if (c b a -> c b a @ @)) $
+
+// Alledged y combinator (need to find where to put @s)/
+(Y (f -> (-> (x - > x x f) (x -> x x f)))) $
+
+// Alledged fac for y comb // fac
+(fac (n -> (-> (n n 1 (-) (+) n 0 < f *) (1) n 2 <))) $

@@ -1,0 +1,30 @@
+IXX
+
+IIXXX
+IXIXX
+
+I(I(I(X,X),X),X)
+IIXIXXX
+IIXXIXX
+IXIIXXX
+IXIXIXX
+
+I
+ I
+  I
+   I
+    X
+    X
+   I
+    X
+    I
+     X
+     X
+  I
+   X
+   X
+ X
+
+imp(imp(imp(imp(x,x),imp(x,imp(x,x))),imp(x,x)),x)
+
+welcome

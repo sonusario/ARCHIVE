@@ -1,0 +1,65 @@
+(() f ( f $ @ $ \@ (f \@) \@ \@ print \@ )) $ @ (f @) @ @ print @
+---
+(f @) @ @ print @
+(f $ @ $ \@ (f \@) \@ \@ print \@) @ print @
+(f $ @ $ \@ (f \@) \@ \@ print \@) print @
+((() f ( f $ @ $ \@ (f \@) \@ \@ print \@ )) $ \@ (f \@) \@ print \@) print @
+---
+(() f ( f $ @ $ \@ (f \@) \@ \@ print \@ )) $ @ (f \@) @ print @
+
+
+
+
+
+(() ph (ph $ @ $ \@ ph \@ print \@)) $ @ ph @ print @
+---
+ph @ print @
+ph $ @ $ \@ ph \@ print \@ print @
+(() ph (ph $ @ $ \@ ph \@ print \@)) $ \@ ph \@ print \@ print @
+---
+(() ph (ph $ @ $ \@ ph \@ print \@)) $ @ ph @ print @
+
+
+
+
+
+((a b) -> (a b a $ \@ b \@)) print-stack ((a b) -> (a b a $ \@ b \@)) $ @ print-stack @
+---
+((a b) -> (a b a $ \@ b \@)) print-stack ((a b) -> (a b a $ \@ b \@)) $ \@ print-stack \@ print-stack @
+---
+((a b) -> (a b a $ \@ b \@)) print-stack ((a b) -> (a b a $ \@ b \@)) $ @ print-stack @
+
+(( (f b l) ) rotate-left  ( (b l f) )) $ @
+(( (f b l) ) rotate-right ( (l f b) )) $ @
+
+(() chars (// change this please
+			` 1 2 3 4 5 6 7 8 9 0 - =
+			~ !   # $ % ^ & *     _ +      
+			q w e r t y u i o p a s d f g h j k l z x c v b n m
+			Q W E R T Y U I O P A S D F G H J K L Z X C V B N M
+			[ ] \ ; ' , . /
+			{ } | : " < > ?
+		  )
+) $ @
+
+
+(() tape ( (0 end) )) $ @
+
+
+(( (f r) ) handle-right-move-expand
+	((end r) -> (() tape ( (0 f r) )) $ @)) $ @
+
+(( (f r) ) handle-left-move-expand
+	((end r) -> (() tape ( (0 r f) )) $ @)) $ @
+
+
+(( (f b l) ) move-right ( (() tape ( (b l f) )) $ @ tape @ handle-right-move-expand @)) $ @
+(( (f b l) ) move-left ( (() tape ( (l f b) )) $ @ tape @ handle-left-move-expand @)) $ @
+
+(( (f b l) ) increment
+
+((sym) eval
+	( > -> tape @ move-right @)
+	( < -> tape @ move-left @)
+	( + -> tape @ increment @)
+	( - -> tape @ decrement @)) $ @

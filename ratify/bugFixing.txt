@@ -1,0 +1,31 @@
+((c) cls (c -> cls @)) $ @
+
+( ((first second body last) (env) (processed)) test
+	((@ second body last) (env) (processed) -> <A>)
+	(($ @ body last) (env) (processed) -> <B>)
+	(() (env) (processed) -> <C>)
+	(-> <D>)) $ @
+
+(@ a b c) (     ) (i j k) test @
+($ @ a b) (1    ) (i j k) test @
+(       ) (1 2  ) (i j k) test @
+(wat    ) (1 2 3) (i j k) test @
+
+(@ a b c) (1 2 3) (i j k) test @
+($ @ a b) (     ) (i j k) test @
+(       ) (1    ) (i j k) test @
+(wat    ) (1 2  ) (i j k) test @
+
+(@ a b c) (1 2  ) (i j k) test @
+($ @ a b) (1 2 3) (i j k) test @
+(       ) (     ) (i j k) test @
+(wat    ) (1    ) (i j k) test @
+
+(@ a b c) (1    ) (i j k) test @
+($ @ a b) (1 2  ) (i j k) test @
+(       ) (1 2 3) (i j k) test @
+(wat    ) (     ) (i j k) test @
+
+vs = [['@', 'a', 'b', 'c'], ['1', '2', '3'], ['i', 'j', 'k']]
+ps = defined['test']['params']
+z = {}

@@ -1,0 +1,53 @@
+(((t) (f) bool) rmBool
+	((t) (f) true  -> t)
+	((t) (f) false -> f)) $ @
+
+(((a)) atom
+	(( ) -> true)
+	((a) -> false)
+	({a} -> true)) $ @
+
+((1 2) eq
+	(2 1 -> true)
+	(    -> false)) $ @
+
+(((f r)) car (f)) $ @
+(((f r)) cdr ((r))) $ @
+((a (b)) cons ((a b))) $ @
+
+( (((bool_fn out) rest)) cond
+	(() -> )
+	(   -> (out lisp_eval @) ((rest) cond @) bool_fn lisp_eval @ rmBool @)) $ @
+
+( (x (y)) qu_x
+	( x  ( ) -> ())
+	( x  (y) -> (x (y) POL_helper @) @)
+	({y} {y} -> (q x))
+	(        -> {y})) $ @	
+
+( (x (f r)) POL_helper
+	(x ( )    -> )
+	(x (f)    -> x f qu_x @)
+	(x (f r)  -> x f qu_x @ x (r) POL_helper @)) $ @
+
+( ((f r) oL) prep_output_list
+	(( )   oL -> oL)
+	((f)   oL -> (f oL POL_helper @) @)
+	((f r) oL -> (r) (f oL POL_helper @) @ prep_output_list @)) $ @
+
+(((pl_fn) (oL)) define_helper ( (pl_fn (oL lisp_eval @)) $ @)) $ @
+
+(((fn pL oL)) define ((pL fn) (pL oL prep_output_list @) @ define_helper @)) $ @
+
+(((f r)) lisp_eval_helper
+	(()    -> )
+	((f)   -> f lisp_eval @)
+	((f r) -> f lisp_eval @ (r) lisp_eval_helper @)) $ @
+
+(((fn args)) lisp_eval
+	((fn)          -> Function (" fn ") # @ was not given arguments)
+	((q args)      -> args)
+	((define args) -> (args) define @)
+	((cond args)   -> (args) cond @)
+	((fn args)     -> (args) lisp_eval_helper @ fn @)
+	(              -> Whachou chrynna do?)) $ @

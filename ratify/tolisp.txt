@@ -1,0 +1,150 @@
+((x y) T (-> x)) $
+((x y) F (-> y)) $
+
+((b) NOT (-> F T b @)) $
+
+((c) cls (c -> cls /@)) $
+
+((c) rem (->)) $
+
+((a) quote (-> a)) $
+
+((buff food) eater
+	(food food ->)
+	(-> food eater @)) $
+
+((1 2 3) atomizer
+	(<BUFF> 3 2 -> <ATOM> eater @ T @)
+	(-> <ATOM> eater @ F @)) $
+
+((a) atom (-> T () <ATOM> <BUFF> <BUFF> a a @ atomizer @)) $
+
+((1 2) ==
+	(2 1 -> T )
+	(-> F)) $
+
+((a) is_emt (-> a () == @)) $
+
+((a) atom (-> (T) (T () (a) (a /@) == @ @) a is_emt @ @ @)) $
+
+((1 2) eq
+	(2 1 -> T)
+	(-> ())) $
+
+((wrd) word (-> T F wrd atom @ T == @ @)) $
+
+((stop f) mechanic
+	(stop <STOP> ->)
+	(<STOP> f -> rem @ f)
+	(-> stop mechanic @)) $
+
+((lst) car (-> () (<STOP> <STOP> lst @ mechanic @) lst word @ @ @)) $
+
+((front lst) cons (-> (front lst /@))) $
+
+((buff front lst) repeatCons
+	(buff <STOP> lst -> rem @ ())
+	(<STOP> front lst -> rem @ lst)
+	(-> buff front lst cons @ repeatCons @)) $
+
+((lst) cdr (-> <STOP> <STOP> lst @ () repeatCons @)) $
+
+
+
+
+((lst back) append (-> (lst /@ back))) $
+
+((d) dup (-> d d)) $
+
+((x y) swap (-> y x)) $
+
+((lst) rotate_left (-> lst dup @ cdr @ swap @ car @ append @)) $
+
+
+
+
+
+
+((lstA lstB) shenan (-> (cls @ lstA @) lstB)) $
+
+((lst) sub_cond
+	(<STOP> ->)
+	(-> sub_cond lst @ shenan @ @ NOT @ @ @ @)) $
+
+
+((lst) cond (-> <STOP> lst @ sub_cond @)) $
+
+---cond test---
+( ((first) (a word @))
+  ((second)(a b eq @))) cond @
+---end cond test
+
+
+
+
+((w) cls ((w) (cls @)) $ <= minimal ratify only uses @ and $
+
+
+
+
+((w) cls (w -> cls /@)) $
+
+((0 1 2 3 4 5 6 7 8 9) raw10 (-> 1 2 3 4 5 6 7 8 9 0)) $
+
+(() 0 (-> (0 1 2 3 4 5 6 7 8 9))) $
+(() 1 (-> (0 /@ /@ raw10 /@))) $
+(() 2 (-> (1 /@ /@ raw10 /@))) $
+(() 3 (-> (2 /@ /@ raw10 /@))) $
+(() 4 (-> (3 /@ /@ raw10 /@))) $
+(() 5 (-> (4 /@ /@ raw10 /@))) $
+(() 6 (-> (5 /@ /@ raw10 /@))) $
+(() 7 (-> (6 /@ /@ raw10 /@))) $
+(() 8 (-> (7 /@ /@ raw10 /@))) $
+(() 9 (-> (8 /@ /@ raw10 /@))) $
+
+((n m) rot10
+	(0 m -> m @)
+	(1 m -> 0 ((m /@ /@ raw10 /@)) rot10 @)
+	(2 m -> 1 ((m /@ /@ raw10 /@)) rot10 @)
+	(3 m -> 2 ((m /@ /@ raw10 /@)) rot10 @)
+	(4 m -> 3 ((m /@ /@ raw10 /@)) rot10 @)
+	(5 m -> 4 ((m /@ /@ raw10 /@)) rot10 @)
+	(6 m -> 5 ((m /@ /@ raw10 /@)) rot10 @)
+	(7 m -> 6 ((m /@ /@ raw10 /@)) rot10 @)
+	(8 m -> 7 ((m /@ /@ raw10 /@)) rot10 @)
+	(9 m -> 8 ((m /@ /@ raw10 /@)) rot10 @)) $
+
+((0 1 2 3 4 5 6 7 8 9) grab0 (-> 0)) $
+
+((n m) + (-> n m rot10 @ @ grab0 @)) $
+
+((a b c) eval (-> a c b @)) $
+
+
+==============================================================================
+
+
+(((w)) atom
+	(( ) -> T)
+	((w) -> F)
+	(    -> T)) $ @
+
+((1 2) eq
+	(2 1 -> T)
+	(    -> F)) $ @
+
+(((first rest)) car (-> first)) $ @
+
+(((first rest)) cdr (-> (rest))) $ @
+
+((toFirst (rest) cons (-> (toFirst rest))) $ @
+
+
+
+(((data)) remove_parens (-> data)) $ @
+((x y) T (-> x)) $ @
+((x y) F (-> y)) $ @
+
+
+
+(((((function data) out) rest)) cond (-> (out) ((rest) cond @) data function @ @ remove_parens @)) $ @

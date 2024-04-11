@@ -1,0 +1,151 @@
+(((p fn conds lcond) (ep efn ebltin econds elcond) (rfbl)) edit_env
+	((p -> conds lcond) \ \ -> (ep efn ebltin econds \elcond) (rfbl (p -> conds lcond) (\) -> @) @ unguard @)
+	(-> (ep efn ebltin (fn -> (p -> conds lcond) (\) -> @) econds \elcond) (rfbl))) () -> @
+
+(((prgm) env (rf rb (rl))) unguard (-> (prgm rl) env (\rf rb))) () -> @
+
+((prgm env (rfbl) g?) eval
+	(\ \ \  g -> prgm env (rfbl  g env () -> @) @)
+	(\ \ \ ng -> prgm env (rfbl ng env () -> @) unguard @)) () -> @
+
+(((f s t b l) env (rf rb rl)) ratify
+	((             ) \ \ -> (rf rb \rl))
+	((( ) -> @ b \l) \ \ -> (    b \l) rl env (\rf \rs rb) edit_env @ ratify @)
+	(((\) -> @ b \l) \ \ -> (    b \l) env (rf rs rb \rl) g eval @ ratify @)
+	(( @  s  t b \l) \ \ -> (s t b \l) env (rf rs rb \rl) ng eval @ ratify @)
+	(                    -> (s t b \l) env (rf rs rb \rl f) ratify @)) () -> @
+
+=====
+(((a b) swap (b a)) () -> @ 1 2 swap @)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	((p fn conds \lcond) \ -> (p fn conds \lcond) env () ratify @)????
+	())
+
+()
+
+ratify @
+---
+(() -> @ 1 2 swap @)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	())
+
+(((a b) swap (b a))) ratify @
+---
+(1 2 swap @)
+
+((a b) swap (b a))
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	())
+
+() edit_env @ ratify @
+---
+(1 2 swap @)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+() ratify @
+---
+(2 swap @)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(1) ratify @
+---
+(swap @)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(1 2) ratify @
+---
+(@)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(1 2 swap) ratify @
+---
+()
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(1 2 swap) ng eval @ ratify @
+---
+()
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(1 2 swap (((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	()) () -> @) @ unguard @ ratify @
+---
+()
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(1 2 ((a b) -> (b a)) (\) -> @) unguard @ ratify @
+---
+()
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+((2 1)) unguard @ ratify @
+---
+(2 1)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+() ratify @
+---
+(1)
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(2) ratify @
+---
+()
+
+(((p fn conds lcond) g?) ->
+	((p -> conds lcond)  g -> (p -> conds lcond) (\) -> @)
+	(swap -> ((a b) -> (b a)) (\) -> @)
+	())
+
+(2 1) ratify @
+---
+(2 1)
+===

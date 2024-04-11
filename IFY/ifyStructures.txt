@@ -1,0 +1,36 @@
+.  -> <empty>
+.  -> ..
+..   -> <str>
+..   -> (...)
+...  -> (...)
+...  -> ... ...
+...  -> <str>
+
+...  -> ....
+.... -> .... ....
+.... -> <str>
+
+where nonterminals are {.,..,...,....}
+and terminals are {(,),<str>,<empty>}
+
+produce "(... <str> ...)" from .
+    .
+    ..
+    (...)
+    (... ...)
+    (... ... ...)
+    (... <str> ...)
+
+//Also
+
+GOD -> <empty>
+GOD -> ANG
+ANG -> <str>
+ANG -> (ARC)
+ARC -> (ARC)
+ARC -> ARC ARC
+ARC -> <str>
+
+ARC -> LIN
+LIN -> LIN LIN
+LIN -> <str>

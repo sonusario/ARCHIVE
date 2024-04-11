@@ -1,0 +1,94 @@
+[(x \{\@()} )
+ (x \{\#0 /@})
+ atom
+ (t)
+ (t)
+ (())
+]
+
+() atom @
+t
+
+(a b) atom @
+()
+
+(a) atom @
+()
+
+(a /@) atom @
+(()) atom @
+
+a atom @
+()
+
+a @ atom @
+() atom @
+t
+
+[a a]
+a atom @
+t
+
+a @ atom @
+a atom
+t
+
+[a 3]
+a atom @
+()
+
+a @ atom @
+3 atom @
+t
+
+[(a \{\#1} b)
+ eq
+ (t)
+ (())
+]
+
+a a eq @
+t
+
+a b eq @
+()
+
+a @ b @ eq @
+a @ () eq @
+() () eq @
+t
+
+[(lst \{\@(a b \{\@...})})
+ car
+ (a)
+]
+
+[(lst \{\@(a b \{\@...})})
+ cdr
+ (b)
+]
+
+[(atom lst)
+ cons
+ ((atom lst /@))
+]
+
+[((atom lst /@))
+ car
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

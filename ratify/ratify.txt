@@ -1,0 +1,313 @@
+<any> -> <emt>
+<any> -> <cop>
+<cop> -> <cop> <cop>
+<cop> -> <cmp>
+<cop> -> <phr>
+<cmp> -> <wrd>
+<cmp> -> (<cop>)
+<phr> -> <wrd>
+<phr> -> <phr> <phr>
+
+
+
+
+
+
+
+@ 	- local function call and value getter (for "X @" think "eval/value of X")
+/@	- global function call (is used in conjunction with % to make forward (de)compositions)
+( 	- start list
+) 	- end list
+$ 	- define (variable or function)
+$$	- define structure
+->	- anon function
+:	- match
+# 	- tag
+% 	- compose
+/%	- decompose
+<-	- logical implication
+<emt>	- structure keyword for NULL
+<wrd>	- structure keyword for an element that is not a list (includes "()")
+\ 	- literal (escape character) (makes entire element literal)
+
+// The eval operators ($,$$,@,/@,%,/%) are inert if they have no input. e.g. (/@) won't run even though it usually runs if nested.
+//	Thus (x @) $ doesn't attempt to run 'x' because x is protected from evaluation by virture of being assigned.
+
+// Functions only "eat" as many elements as number of arguments from their matching conditional
+// A function that requires arguments but isn't given any, and it doesn't have a default, just pushes it's definition(s) to the stack
+//	with any eval operators listed as literals (\$, \$$, \@, \/@, \%, \/) (only really need (\@ and \/@))
+
+((z s) 1 (z s)) $
+
+a b 1 @ => a b
+1 @ => z s
+
+((z:a s:b) 2 (z s) (s z)) $
+
+a b 2 @ => a b
+c d 2 @ => d c
+2 @ => ((z s) (s z))
+
+(x 3) $
+(y ()) $
+
+z @ => z
+x @ => 3
+
+
+
+
+((x y) -> (x)) $							//anon function that returns the first of two inputs
+((x y) hi -> (y x hi @)) $						//a labeled anon function for the sake of recursion
+
+
+
+
+
+
+
+((x y) T (x @)) $
+((x y) F (y @)) $
+
+
+
+
+
+
+((a) quote (a)) $							//returns the input
+((:<wrd>) atom (T) (F)) $						//returns T if input matches a <wrd> // X matches <wrd> if it is not a non-empty list
+((a:#b b:#a) eq (T) (F)) $						//returns T if a matches b and b matches a
+((:(f:<cmp> r:<any>)) first (f) (nil)) $				//return value of f if case is matched and nil otherwise //this will be the first element of a list
+((:(f:<cmp> r:<any>)) rest ((r)) (())) $				//return list of r if case is matched and () otherwise //this will be a list of the elements after the first
+((f lst:(r:<any>)) cons ((f r))) $					//return list of element f followed by element(s) r
+
+
+
+((f lst) cons ((f lst /\%))) $						//another cons
+(first cons inv @) $							//inv is currently undefined
+((lst) last (lst inv @ first @)						//just playing around
+
+
+
+((lst:(<cop>)) cond ((lst first @ rest @ @) (lst rest @ cond @) lst first @ first @ @ @)) $
+
+(((a b eq @) first) ((a atom @) second)) cond @
+---
+((...) first @ rest @ @) ((...) rest @ cond @) (((a b eq @) first) ((a atom) second)) first @ first @ @ @
+((...) first @ rest @ @) ((...) rest @ cond @) ((a b eq @) first) first @ @ @
+((...) first @ rest @ @) ((...) rest @ cond @) (a b eq @) @ @
+((...) first @ rest @ @) ((...) rest @ cond @) a b eq @ @
+((...) first @ rest @ @) ((...) rest @ cond @) F @
+((...) rest @ cond @) @
+(((a b eq @) first) ((a atom @) second)) rest @ cond @
+(((a atom @) second)) cond @
+((...) first @ rest @ @) ((...) rest @ cond @) (((a atom @) second)) first @ first @ @ @
+((...) first @ rest @ @) ((...) rest @ cond @) ((a atom @) second) first @ @ @
+((...) first @ rest @ @) ((...) rest @ cond @) (a atom @) @ @
+((...) first @ rest @ @) ((...) rest @ cond @) a atom @ @
+((...) first @ rest @ @) ((...) rest @ cond @) T @
+((...) first @ rest @ @) @
+(((a atom @) second)) first @ rest @ @
+((a atom @) second) rest @ @
+(second) @
+---
+second
+
+//
+((lst:(<cop>))
+ cond
+ ((lst first @ rest @ @)
+  (lst rest @ cond @)
+  lst first @ first @ @ @)) $
+
+
+
+
+((:<wrd> :<wrd> :<wrd> :<wrd>) d (there)) $
+((:<wrd> :<wrd> :<wrd> :<wrd>) e ((World))) $
+
+Hello a b c d d @ World
+Hello there World
+
+Hello World /% @
+Hello W o r l d @
+Hello there
+
+Hello (W o r l d) % and all d @
+Hello World and all d @
+there
+
+Hello (World) /% /% @ /% @
+Hello World /% @ /% @
+Hello W o r l d @ /% @
+Hello there /% @
+Hello t h e r e @
+Hello (World)
+
+
+
+ASSUME >=, >, and -
+
+((:0 :<cmp> :()) chg <-) $
+((A lst:(f:<wrd> r:<any>) :(f:<wrd> x:<phr>)) chg <-
+   (A f >= @)
+   (B A f - @ is @)
+   (B lst x chg @)) $
+((A :(f:<wrd> r:<any>) x) chg <-
+   (A 0 > @)
+   (A r x chg @)) $
+
+((amount denoms) mkc (amount denoms x chg @)) $
+
+42 (25 10 5 1) mkc @ => (25 10 5 1 1)
+41 (25 10 5 1) mkc @ => (25 10 5 1)
+36 (25 10 5 1) mkc @ => (25 10 1)
+27 (25 10 5 1) mkc @ => (25 1 1)
+24 (25 10 5 1) mkc @ => (10 10 1 1 1 1)
+21 (25 10 5 1) mkc @ => (10 10 1)
+18 (25 10 5 1) mkc @ => (10 5 1 1 1)
+12 (25 10 5 1) mkc @ => (10 1 1)
+10 (25 10 5 1) mkc @ => (10)
+ 7 (25 10 5 1) mkc @ => (5 1 1)
+ 3 (25 10 5 1) mkc @ => (1 1 1)
+
+
+
+((d n (#n))
+ mkc
+ ()) $
+
+
+
+((n:0)
+ (n:<(#n 0 > @)>) ????
+ fac
+ (1)
+ (n n 1 - @ fac @ * @)
+ (n n 1 + @ fac @ * @)
+) $
+
+((:0) iz (T) (F)) $
+
+((n) fac ((1) (n n 1 - @ fac @ * @) n iz @ @)) $
+
+((:0) (n) fac (1) (n n 1 - @ fac @ * @)) $
+
+((n:0) (n (x (+) (-) #n 0 < @) $) fac (1) (n n 1 x @ fac @ * @)) $
+
+
+
+
+
+((a b c) if (b c a @ @)) $
+
+(a a eq @) (5 print @) (3 print @) if @
+---
+(5 print @) (3 print @) (a a eq @) @ @
+(5 print @) (3 print @) a a eq @ @
+(5 print @) (3 print @) T @
+(5 print @) @
+5 print @
+---
+5
+
+
+
+ARG DEFINE
+//hypothetical arg definition
+((n:0)
+ (n (x (+) (-) #n 0 < @) $)
+ fac
+ (1)
+ (n n 1 x @ fac @ * @)) $
+
+//doesn't destroy 'n'
+((n) print_fac (n fac => n fac @)) $
+
+3 print_fac @
+---
+3 fac => 3 fac @
+3 fac => 3 3 1 - @ fac @ * @
+3 fac => 3 2 fac @ * @
+3 fac => 3 2 2 1 - @ fac @ * @ * @
+3 fac => 3 2 1 fac @ * @ * @
+3 fac => 3 2 1 1 1 - @ fac @ * @ * @ * @
+3 fac => 3 2 1 0 fac @ * @ * @ * @
+3 fac => 3 2 1 1 * @ * @ * @
+3 fac => 3 2 1 * @ * @
+3 fac => 3 2 * @
+---
+3 fac => 6
+
+ASSUME second
+((a b c d) run_extra_fac (a b @ c d)) $
+
+3 fac => 6 run_extra_fac @
+---
+3 fac @ => 6
+...
+---
+6 => 6
+
+DEFINE MAPPING
+
+TYPICAL MATH AND COMPARISONS
+
+-------
+
+SCOPING
+
+DEFINE ORDER
+
+INPUT RANGE
+
+MULTITHREADING
+
+QUERYING
+
+-------
+
+GRAPHICS/CONSOLE/FORM (Mobile, Web, Desktop)
+
+AUDIO
+
+NETWORKING/SECURITY
+
+DRIVERS (Devices input, store, compute, and output. If you have the spec you can interact with the device.)
+
+-------
+
+COMPILER INSTRUCTIONS (garbage collection, energy vs time(speed) vs space, eval vs LUT)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

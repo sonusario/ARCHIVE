@@ -1,0 +1,22 @@
+exec("inVals = [['hello', ['there', 'world', 'and', 'all', 'its'], 'inhabitants']]\n" +
+     "params = [['p1',['p2a', 'p2b', 'p2c'],'p3']]\n" +
+     "LUT = {}\n" +
+     "build_LUT(inVals, params, LUT)")
+
+
+((c) cls (c -> cls @)) $ @
+(((x)) hmm (_x_ (x))) $ @
+(((f (b1 b2) l)) test ( _f_b1_b2_l_ _b1_b2_ (f) (b1) (b2) (l) )) $ @
+
+cls @ (a b c d e f g) test @
+
+cls @ (a (b c d e f) g) test @
+cls @ (a (b c) g) test @
+cls @ (a (b) g) test @
+cls @ (a () g) test @
+
+cls @ (a g) test @
+cls @ (a) test @
+cls @ () test @
+
+cls @ hello test @

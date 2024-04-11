@@ -1,0 +1,97 @@
+(((resultF resultB resultL)(exprF exprS exprB exprL) env) eval-expr
+	((resultF resultB resultL) (                   ) env -> (resultF resultB resultL))
+	((resultF resultB resultL) ($   @   exprB exprL) env -> resultL (((lst)) ->
+																		((lst) -> TODO)
+																		(      -> (resultF resultB resultL resultL env $ @ ((fname (a b c d)) -> ((a fname c d))) $ @ ) @ (exprB exprL) env eval-expr @)) $ @)
+	((resultF resultB resultL) (@ exprS exprB exprL) env -> (resultF resultB resultL env $ @ $ @) @ (exprS exprB exprL) env eval-expr @)
+	(													 -> (resultF resultB resultL exprF) (exprS exprB exprL) env eval-expr @)
+) $ @
+
+((list-expr) ratify (	() list-expr
+						((wrd) ->
+						)
+						eval-expr @
+					)
+) $ @
+
+
+---
+
+(((rF rB rL) (eF eS eB eL) env) eval-expr
+	((rF rB rL) (           ) env -> (rF rB rL))
+	((rF rB rL) ($  @  eB eL) env -> 
+
+
+
+((list-expr) ratify (	() list-expr
+						((wrd) ->
+							((->) -> (err invalid def format))
+							(-> not defined)
+						)
+						eval-expr @
+					)
+) $ @
+
+
+
+
+((y) ->
+	(x -> arg)
+	(y env $ @))
+	
+-----
+
+(((rF rB rL) (eF eS eB eL) env) eval-expr
+	((rF rB rL) (           ) env -> (rF rB rL))
+	((rF rB rL) ($  @  eB eL) env -> rL (((fF fS fB fL)) ->
+											((fF fS fB fL) -> (rF rB) (eB eL) ((wrd) ->
+																					(fS -> (fF -> fB fL) )
+																					(   -> wrd env $ @)
+																			  ) eval-expr @
+											)
+											((fF -> fB fL) -> 
+
+((list-expr) ratify (() list-expr ((wrd) -> ( (not defined) )) eval-expr @ )) $ @
+
+-----
+
+(((rF rB rL) (eF eS eB eL) env) eval-expr
+	((rF rB rL) (           ) env -> (rF rB rL))
+	((rF rB rL) ($  @  eB eL) env ->
+		rL (((fF fS fB fL)) ->
+				((fF fS fB fL) ->
+					(rF rB) (eB eL) ((wrd) ->
+										(fS -> (fF -> fB fL) )
+										(   -> wrd env $ @)
+									) eval-expr @
+				)
+				((fF -> fB fL) -> 
+
+((list-expr) ratify (() list-expr ((wrd) -> ( (not defined) )) eval-expr @ )) $ @
+
+
+---
+(scheme)
+
+(define eval-expr
+	(lambda (expr env)
+		(pmatch expr
+			[,x (guard (symbol? x))
+				(env x)]
+			[(lambda (,x) ,body)
+			 (lambda (arg)
+				(eval-expr body (lambda (y)
+									(if (eq? x y)
+										arg
+										(env y)))))]
+			[(,rator ,rand)
+			 ((eval-expr rator env)
+			  (eval-expr rand env))])))
+
+
+(define add1
+	(lambda (x) (+ 1 x)))
+	
+	
+(eval-expr (add1 5) (lambda (y) (err)))
+; 

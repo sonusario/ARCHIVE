@@ -1,0 +1,145 @@
+( ((first rest) (processed)) modCond
+	((  )      (processed) -> ((processed)))
+	((->)      (processed) -> (processed ->))
+	((-> rest) (processed) -> (processed -> (rest)))
+	(                      -> (rest) (processed first) modCond @)) $ @
+
+( ((first rest)) modConds
+	(()      ->)
+	((first) -> first () modCond @)
+	(        -> first () modCond @ (rest) modConds @)) $ @
+
+( ((ps fn cs fc)) matchMaker ((fn -> (ps -> (cs fc) modConds @) @ $ @)) ) $ @
+
+( ((first rest)) dictMaker
+	(()      -> )
+	((first) -> first matchMaker @)
+	(        -> first matchMaker @ (rest) dictMaker @)) $ @
+
+( ((f b l)) safeLast
+	(() -> ())
+	((f) -> () f)
+	((f b) -> (f) b)
+	(-> (f b) l)) $ @
+
+( ((1) 2 (3) (4)) reprocess (-> (3 4 1) 2 () rattatat @) ) $ @
+
+( ((raw) (env) (processed) (ps fn cs fc)) prependDict
+	((raw) (env) (processed) (ps -> cs fc) ->
+		(raw) (env) (processed (ps -> (cs fc) modConds @) @ $ @) @ safeLast @ reprocess @)
+	(-> ((fun) dictionary ((ps fn cs fc) env) dictMaker @ (-> fun)) @ $ @ (raw) ((ps fn cs fc) env) (processed))) $ @
+
+( ((first second body last) (env) (processed)) rattatat
+	((@ second body last) (env) (processed) ->
+		(second body last) (env) (processed dictionary @) @ safeLast @ reprocess @)
+	(($ @ body last) (env) (processed) -> (body last) (env) (processed) safeLast @ prependDict @ rattatat @)
+	(() (env) (processed) -> processed)
+	(-> (second body last) (env) (processed first) rattatat @)) $ @
+
+( ((exprs) (env)) ratify
+	(->
+		((fn1) dictionary (env) dictMaker @ (-> fn1)) @
+		$ @ ((exprs) (env) () rattatat @) @)) $ @
+
+(
+    (3 + 4 3val @) (((c) cls (c -> cls @)) 
+    ((c) rem (->)) 
+    (((lst)) rp (-> lst)) 
+
+    (((first rest)) car (-> first)) 
+    ((toFirst (rest)) cons (-> (toFirst rest))) 
+
+
+    (((f r)) rL (-> (r f))) 
+
+    (() 0 (-> (0 1 2 3 4 5 6 7 8 9))) 
+    (() 1 (-> 0 @ rL @)) 
+    (() 2 (-> 1 @ rL @)) 
+    (() 3 (-> 2 @ rL @)) 
+    (() 4 (-> 3 @ rL @)) 
+    (() 5 (-> 4 @ rL @)) 
+    (() 6 (-> 5 @ rL @)) 
+    (() 7 (-> 6 @ rL @)) 
+    (() 8 (-> 7 @ rL @)) 
+    (() 9 (-> 8 @ rL @)) 
+
+    ((n m) radd
+        (0 m -> m @ car @)
+        (1 m -> 0 m @ rL @ car @ radd @)
+        (2 m -> 1 m @ rL @ car @ radd @)
+        (3 m -> 2 m @ rL @ car @ radd @)
+        (4 m -> 3 m @ rL @ car @ radd @)
+        (5 m -> 4 m @ rL @ car @ radd @)
+        (6 m -> 5 m @ rL @ car @ radd @)
+        (7 m -> 6 m @ rL @ car @ radd @)
+        (8 m -> 7 m @ rL @ car @ radd @)
+        (9 m -> 8 m @ rL @ car @ radd @)) 
+
+    ((a b) + (a b radd @)) 
+    ((a b c) 3val (a c b @)) 
+
+    ((a b) swapRP (-> b rp @ a)) 
+    (((lst)) last (-> (lst (cls @) swapRP @) @ rp @)) 
+    (((lst)) front (-> (lst rem @) @)) 
+
+    ((lst) rR (-> lst last @ lst front @ cons @)) 
+    ((n m c) nradd
+        (n m 0 -> m)
+        (n m c -> n n m radd @ c @ rR @ car @ nradd @)) 
+
+    ((n m) madd
+        (n 1 -> n)
+        (1 m -> m)
+        (-> n n m @ rR @ car @ nradd @)) 
+
+    ((a b) * (-> a b madd @)) ) ratify @
+)
+
+
+
+(
+    ( ((first rest) (processed)) modCond
+        ((  )      (processed) -> ((processed)))
+        ((->)      (processed) -> (processed ->))
+        ((-> rest) (processed) -> (processed -> (rest)))
+        (                      -> (rest) (processed first) modCond @))
+
+    ( ((first rest)) modConds
+        (()      ->)
+        ((first) -> first () modCond @)
+        (        -> first () modCond @ (rest) modConds @))
+
+    ( ((ps fn cs fc)) matchMaker ((fn -> (ps -> (cs fc) modConds @) @ $ @)) )
+
+    ( ((first rest)) dictMaker
+        (()      -> )
+        ((first) -> first matchMaker @)
+        (        -> first matchMaker @ (rest) dictMaker @))
+
+    ( ((f b l)) safeLast
+        (() -> ())
+        ((f) -> () f)
+        ((f b) -> (f) b)
+        (-> (f b) l))
+
+    ( ((1) 2 (3) (4)) reprocess (-> (3 4 1) 2 () rattatat @) )
+
+    ( ((raw) (env) (processed) (ps fn cs fc)) prependDict
+        ((raw) (env) (processed) (ps -> cs fc) ->
+            (raw) (env) (processed (ps -> (cs fc) modConds @) @ $ @) @ safeLast @ reprocess @)
+        (-> ((fun) dictionary ((ps fn cs fc) env) dictMaker @ (-> fun)) @ $ @ (raw) ((ps fn cs fc) env) (processed)))
+
+    ( ((first second body last) (env) (processed)) rattatat
+        ((@ second body last) (env) (processed) ->
+            (second body last) (env) (processed dictionary @) @ safeLast @ reprocess @)
+        (($ @ body last) (env) (processed) -> (body last) (env) (processed) safeLast @ prependDict @ rattatat @)
+        (() (env) (processed) -> processed)
+        (-> (second body last) (env) (processed first) rattatat @))
+
+    ( ((exprs) (env)) ratify
+        (->
+            ((fn) dictionary (env) dictMaker @ (-> fn)) @
+            $ @ ((exprs) (env) () rattatat @) @))
+)
+
+ratify @

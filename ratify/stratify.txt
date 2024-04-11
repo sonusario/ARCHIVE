@@ -1,0 +1,50 @@
+<any> -> <emt>
+<any> -> <cop>
+<cop> -> <cmp>
+<cop> -> <phr>
+<cop> -> <cop> <cop>
+<cmp> -> <atm>
+<cmp> -> (<cop>)
+<phr> -> <atm>
+<phr> -> <phr> <phr>
+
+(,),->,$,@,:,<any>,<cop>,<cmp>,<phr>,<emp>,<atm>,/@
+
+((x y) -> (x)) $
+
+((a b) T (a @)) $
+((a b) F (b @)) $
+
+((a) quote (a)) $
+((:<atm>) atom (T) (F)) $
+((a:#b b:#a) eq (T) (F)) $
+((:(f:<cmp> r:<any>) first (f) (nil)) $
+((:(f:<cmp> r:<any>) rest (r)) $
+((f lst:(r:<any>)) cons ((f r))) $
+((lst:(<cop>)) cond ((lst first @ rest @ @) (lst rest @ cond @) lst first @ first @ @ @)) $
+
+((n:0)
+ (n:<(#n 0 > @)>) ????
+ fac
+ (1)
+ (n n 1 - @ fac @ * @)
+ (n n 1 + @ fac @ * @)
+) $
+
+((:0) iz (T) (F)) $
+
+((n) fac ((1) (n n 1 - @ fac @ * @) n iz @ @)) $
+
+((:0) (n) fac (1) (n n 1 - @ fac @ * @)) $
+
+((a b c) if (b c a @ @)) $
+
+(a a eq @) (5 print @) (3 print @) if @
+---
+(5 print @) (3 print @) (a a eq @) @ @
+(5 print @) (3 print @) a a eq @ @
+(5 print @) (3 print @) T @
+(5 print @) @
+5 print @
+---
+5

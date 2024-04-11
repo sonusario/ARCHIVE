@@ -1,0 +1,148 @@
+((c) cls (c -> cls @)) $ @
+(((lst)) rp (-> lst)) $ @
+
+((1 2) eq
+	(2 1 -> T)
+	(    -> F)) $ @
+
+((FT) eq_conv
+	(F -> No.)
+	(T -> Yes.)) $ @
+
+((voc) 0
+	(valueListOf -> (0 1 2 3 4 5 6 7 8 9))
+	(carryListOf -> (0 0 0 0 0 0 0 0 0 0))) $ @
+
+((voc) 1
+	(valueListOf -> (1 2 3 4 5 6 7 8 9 0))
+	(carryListOf -> (0 0 0 0 0 0 0 0 0 1))) $ @
+
+((voc) 2
+	(valueListOf -> (2 3 4 5 6 7 8 9 0 1))
+	(carryListOf -> (0 0 0 0 0 0 0 0 1 1))) $ @
+
+((voc) 3
+	(valueListOf -> (3 4 5 6 7 8 9 0 1 2))
+	(carryListOf -> (0 0 0 0 0 0 0 1 1 1))) $ @
+
+((voc) 4
+	(valueListOf -> (4 5 6 7 8 9 0 1 2 3))
+	(carryListOf -> (0 0 0 0 0 0 1 1 1 1))) $ @
+
+((voc) 5
+	(valueListOf -> (5 6 7 8 9 0 1 2 3 4))
+	(carryListOf -> (0 0 0 0 0 1 1 1 1 1))) $ @
+
+((voc) 6
+	(valueListOf -> (6 7 8 9 0 1 2 3 4 5))
+	(carryListOf -> (0 0 0 0 1 1 1 1 1 1))) $ @
+
+((voc) 7
+	(valueListOf -> (7 8 9 0 1 2 3 4 5 6))
+	(carryListOf -> (0 0 0 1 1 1 1 1 1 1))) $ @
+
+((voc) 8
+	(valueListOf -> (8 9 0 1 2 3 4 5 6 7))
+	(carryListOf -> (0 0 1 1 1 1 1 1 1 1))) $ @
+
+((voc) 9
+	(valueListOf -> (9 0 1 2 3 4 5 6 7 8))
+	(carryListOf -> (0 1 1 1 1 1 1 1 1 1))) $ @
+
+(((0 1 2 3 4 5 6 7 8 9)) first   (-> 0)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) second  (-> 1)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) third   (-> 2)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) fourth  (-> 3)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) fifth   (-> 4)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) sixth   (-> 5)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) seventh (-> 6)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) eigth   (-> 7)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) ninth   (-> 8)) $ @
+(((0 1 2 3 4 5 6 7 8 9)) tenth   (-> 9)) $ @
+
+((n) digit_to_fn
+	(0 ->   first)
+	(1 ->  second)
+	(2 ->   third)
+	(3 ->  fourth)
+	(4 ->   fifth)
+	(5 ->   sixth)
+	(6 -> seventh)
+	(7 ->   eigth)
+	(8 ->   ninth)
+	(9 ->   tenth)) $ @
+
+((n mfn) sd_adder (-> valueListOf n @ mfn @)) $ @
+
+((n mfn) carrier (-> carryListOf n @ mfn @)) $ @
+
+((n mfn) carry_add (-> n mfn carrier @ n mfn sd_adder @)) $ @
+
+((i j k) select_carry
+	(1 j k -> 1 k)
+	(i 1 k -> 1 k)
+	(      -> 0 k)) $ @
+
+((c a b) full_adder (c a digit_to_fn @ carry_add @ b digit_to_fn @ carry_add @ select_carry @)) $ @
+
+((carry out) md_add_helper (carry md_add @ out)) $ @
+
+((i j) keep_sig
+	(0 j ->   j)
+	(    -> i j)) $ @
+
+(((NF NB NL) (MF MB ML) carry) md_add
+	(() () carry -> 0)
+	((NF) () carry -> 0 carry NF full_adder @ keep_sig @)
+	(() (MF) carry -> 0 carry MF full_adder @ keep_sig @)
+	((NF) (MF) carry -> carry NF MF full_adder @ keep_sig @)
+	((NF NB NL) () carry -> (NF NB NL) (0) carry md_add @)
+	(() (MF MB ML) carry -> (0) (MF MB ML) carry md_add @)
+	((NF NB NL) (MF) carry -> (NF NB) () carry NL MF full_adder @ md_add_helper @)
+	((NF) (MF MB ML) carry -> () (MF MB) carry NF ML full_adder @ md_add_helper @)
+	((NF NB NL) (MF MB ML) carry -> (NF NB) (MF MB) carry NL ML full_adder @ md_add_helper @)) $ @
+
+((a b) +L ((a b 0 md_add @) @)) $ @
+((a b) + (a b -> (a % @ b % @ 0 md_add @) @ # @)) $ @
+
+(((f b l)) last (l)) $ @
+
+(((f b l)) fib_helper
+	(() -> )
+	((f) -> (f f f + @) @)
+	((f l) -> (f l f l + @) @)
+	((f b l) -> (f b l (b) last @ l + @) @)) $ @
+
+((n acc itr limit) repeated_add
+	(n acc limit itr -> acc)
+	(n acc itr limit -> n n acc + @ itr 1 + @ limit repeated_add @)) $ @
+
+(((f r)) remove_leading_zeros
+	((0)   -> (0))
+	((0 r) -> (r) remove_leading_zeros @)
+	(      -> (f r))) $ @
+
+((a b) * (a b -> a 0 0 b % @ remove_leading_zeros @ # @ repeated_add @)) $ @
+
+
+((a b c) 3val (a c b @)) $ @
+
+
+(((f b l)) odd_or_even_length
+	(()  -> even)
+	((f) -> odd)
+	(    -> (b) odd_or_even_length @)) $ @
+
+(((f r) acc) length??
+	(() acc -> acc)
+	(-> (r) acc 1 + @ length?? @)) $ @
+
+((lst) length? (lst 0 length?? @)) $ @
+
+((fcb acc limit) fac_helper
+	(fcb limit acc -> fcb acc * @)
+	(fcb acc limit -> fcb acc * @ acc 1 + @ limit fac_helper @)) $ @
+
+((n) fac
+	(0 -> 1)
+	(  -> 1 1 n fac_helper @)) $ @

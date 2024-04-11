@@ -1,0 +1,18 @@
+[(0) (n) factorial (1) (n n 1 - @ factorial @ * @)] ratify
+
+factorial 0 = 1\n factorial n = n * factorial (n - 1) //haskell
+
+0 factorial = 1\n n factorial = n n 1 - @ factorial @ * @
+0 factorial = 1\n n factorial = n n 1 - factorial *
+
+[(0) (n) factorial (1) (n * factorial(n - 1))]
+[(0) (n) factorial (1) (n n 1 - factorial *)]
+
+---
+
+[(x|(x) y) T (x)]
+[(x y|(y)) F (y)]
+
+[(0) iz (T) (F)]
+
+[(n) factorial ((1) (n n 1 - factorial *) n iz)]

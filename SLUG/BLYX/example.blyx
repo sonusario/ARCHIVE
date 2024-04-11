@@ -1,0 +1,33 @@
+kp(arg,val) # {
+	arg.val = val;
+}
+
+ch(arg) = {
+	return arg.val;
+}
+
+va(val) = {
+	return val;
+}
+
+x $ {
+	val: NULL;
+}
+
+y: 6
+
+kp(x,7);
+ch(x);
+va(x.val + 1);
+va(x);
+va(y)
+
+/*
+===============
+OUTPUT
+===============
+ 7
+ 8
+ <obj.x>
+ 6
+*/

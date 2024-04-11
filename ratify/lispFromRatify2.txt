@@ -1,0 +1,31 @@
+[(x y) T (x @)]
+[(x y) F (y @)]
+
+[(a) quote (a)]
+
+[( \{()|\#0 @} ) atom (T) (F)]
+
+[( \{\#1} \{\#0} ) eq (T) (F)]
+
+[( \{(\<cmp> \<phr>)} ) car (\#0.0)]
+
+[( \{(\<cmp> \<phr>)} ) cdr (\#0.1)]
+
+[(wrd lst\(\<any>)) cons ((wrd lst /@))]
+
+[(lst) cond ((lst car @ cdr @) (lst cdr @ cond @) lst car @ car @ @ @)]
+
+
+((('a 'b eq @) 'first) (('a atom @) 'second)) cond @
+---
+((('a 'b eq @) 'first) (('a atom @) 'second)) car @ car @ @ @
+(('a 'b eq @) 'first) car @ @ @
+('a 'b eq @) @ @
+'a 'b eq @ @
+() () F @
+
+( cond ((eq 'a 'b) 'first)
+       ((atom 'a) 'second) )
+
+[(list\{ (first\<cmp>  rest\<any>) }) car (first)]
+[(list\{ (first\<cmp>  rest\<any>) }) cdr ((rest))]

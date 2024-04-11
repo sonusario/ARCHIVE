@@ -1,0 +1,357 @@
+"create table FMAX.AIM_PHASE_COST_ENC_ACT as( 
+ SELECT C.MULTITENANT_ID,
+         C.PROPOSAL,
+         C.SORT_CODE,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'L'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ENC_LABOR,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'M'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ENC_MATERIAL,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'E'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ENC_EQUIPMENT,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'C'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ENC_CONTRACT,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' THEN COALESCE (C.AMOUNT, 0.00)
+                 ELSE 0.00
+             END)
+             AS ENC_TOTAL,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'L'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ACTUAL_LABOR,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'M'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ACTUAL_MATERIAL,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'E'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ACTUAL_EQUIPMENT,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'C'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS ACTUAL_CONTRACT,
+         SUM (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' THEN COALESCE (C.AMOUNT, 0.00)
+                 ELSE 0.00
+             END)
+             AS ACTUAL_TOTAL,
+         SUM (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'L'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS BILLED_LABOR,
+         SUM (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'M'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS BILLED_MATERIAL,
+         SUM (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'E'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS BILLED_EQUIPMENT,
+         SUM (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'C'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS BILLED_CONTRACT,
+         SUM (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS BILLED_TOTAL,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'L'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ENC_LABOR,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'M'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ENC_MATERIAL,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'E'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ENC_EQUIPMENT,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' AND C.SUBLEDGER_TYPE = 'C'
+                 THEN
+                    COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ENC_CONTRACT,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'E' THEN COALESCE (C.AMOUNT, 0.00)
+                 ELSE 0.00
+             END)
+             AS COUNT_ENC_TOTAL,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'L'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ACT_LABOR,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'M'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ACT_MATERIAL,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'E'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ACT_EQUIPMENT,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' AND C.SUBLEDGER_TYPE = 'C'
+                 THEN
+                     COALESCE (C.AMOUNT, 0.00)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_ACT_CONTRACT,
+         COUNT (
+             CASE
+                 WHEN C.FIN_TYPE = 'A' THEN COALESCE (C.AMOUNT, 0.00)
+                 ELSE 0.00
+             END)
+             AS COUNT_ACT_TOTAL,
+         COUNT (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'L'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_BLD_LABOR,
+         COUNT (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'M'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_BLD_MATERIAL,
+         COUNT (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'E'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_BLD_EQUIPMENT,
+         COUNT (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                      AND C.SUBLEDGER_TYPE = 'C'
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_BLD_CONTRACT,
+         COUNT (
+             CASE
+                 WHEN     C.FIN_TYPE = 'A'
+                      AND (C.BILL_SEQ IS NULL OR C.BILL_SEQ = 0)
+                 THEN
+                     (CASE
+                          WHEN C.BILL_DATE IS NULL
+                          THEN
+                              0.00
+                          ELSE
+                              COALESCE (C.BILL_AMOUNT,
+                                        (COALESCE (C.AMOUNT, 0.00)))
+                      END)
+                 ELSE
+                     0.00
+             END)
+             AS COUNT_BLD_TOTAL,
+         COUNT (*) AS COUNT
+    FROM FMAX.AE_S_FND_A C
+   WHERE     C.PROPOSAL IS NOT NULL
+         AND C.SORT_CODE IS NOT NULL
+         AND C.FIN_TYPE IN ('E', 'A')
+   GROUP BY C.MULTITENANT_ID, C.PROPOSAL, C.SORT_CODE
+)"

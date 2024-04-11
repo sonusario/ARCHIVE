@@ -1,0 +1,63 @@
+(((1 2 3 4 b l)) first4 (-> (1 2 3 4))) $ @
+
+(((1 2 3 4 b l)) f4rest (-> (b \l))) $ @
+
+(((lst)) rp (lst)) $ @
+
+(((f b l)) reverse
+	(() -> ())
+	(   -> (\l (b) reverse @ rp @ f) @)) $ @
+	
+(((f b l)) last4 (-> (f b \l) reverse @ first4 @ reverse @)) $ @
+
+(((f b l)) l4rest (-> (f b \l) reverse @ f4rest @ reverse @)) $ @
+
+(((f b l) bi) apply
+	(\ () -> (f b \l (-> ->) -> @) @ unguard @)
+	(\ (->) -> (f b \l) edit_env @)
+	(\ (-> ->) -> (f b \l)
+
+((env (rf rb rl) g?) eval
+	(\ ng -> env (rf rb \rl env () -> @) @ unguard @)
+	(     -> env (rf rb \rl env () -> @) @)
+
+(((f s b l) env (rf rb rl)) ratify
+	((         ) \ \ -> (rf rb \rl))
+	((-> @ b \l) \ \ -> (b \l) env (\rf rb) rl apply @ ratify @)
+	(( @ s b \l) \ \ -> (b \l) env (rf rb \rl) ng eval @ ratify @)
+	(                -> (b \l) env (rf rb \rl f) ratify @)) $ @
+
+
+
+
+() -> @			//define/run anon
+(\) -> @		//guarded run
+
+
+((w) -> (w -> -> @)) \ @
+
+
+
+(((f s b l) env (rf rb rl)) atify
+	((         ) \ \ -> (rf rb \rl))
+	((-> @ b \l) \ \ -> (b \l) env (rf rb \rl env @) @)
+
+((prgm) ratify
+	(	prgm
+		(((f s b l)) ->
+			(( ) -> edit_env @)
+			((\) -> )
+			((f -> b l) -> (f -> b l) (\) -> @)
+			()
+		)
+		() atify @
+	)) () -> @
+
+
+
+
+
+
+
+((w) cls (w -> cls @)) define @
+(a b c d cls @) @ => (a b c cls @) => (a b cls @) => (a cls @) => (cls @) => ()

@@ -1,0 +1,10 @@
+change(0,_,[]). change(A,[F|R],[F|X]) :- A >= F, B is A - F, change(B,[F|R],X). change(A,[_|R],X) :- A > 0, change(A,R,X).
+[(d n\>=[x \#d]) mkc ([chg (chg /@ /@ x)] d n x - @ mkc @)]
+((d n\>=(x \#d) def @) mkc ((chg (chg /@ /@ x)) def @ d n x - mkc @)) def
+
+tor(0,A):-A is 1. tor(N,A):-N>0,M is N-1,tor(M,B),A is B*N.
+[(0)(1)fac(1)(n n 1 - fac @ *)]
+
+[(0)(1) fac (1)(n n 1 - @ fac @ * @)]
+
+((0)(1)fac(1)(n n 1 - @ fac @ * @)) def @

@@ -1,0 +1,47 @@
+quote
+atom
+eq
+car
+cdr
+cons
+cond
+
+((data) q (data)) $ @
+
+(((f b l) (core)) insert_core ((f core l))) $ @
+(((f b l)) reverse
+	(( ) -> ( ))
+	((f) -> (f))
+	(    -> (l f) (b) reverse @ insert_core @)) $ @
+
+
+
+(((t) (f) bool) rmBool
+	((t) (f) true  -> t)
+	((t) (f) false -> f)) $ @
+
+(((a)) atom
+	(( ) -> true)
+	((a) -> false)
+	({a} -> true)) $ @
+((1 2) eq
+	(2 1 -> true)
+	(    -> false)) $ @
+(((f r)) car (f)) $ @
+(((f r)) cdr ((r))) $ @
+((a (b)) cons ((a b))) $ @
+( (((bool_fn out) rest)) cond
+	(() -> )
+	(   -> (out lisp_eval @) ((rest) cond @) bool_fn lisp_eval @ rmBool @)) $ @
+
+(((f r)) lisp_eval_helper
+	(()    -> )
+	((f)   -> f lisp_eval @)
+	((f r) -> f lisp_eval @ (r) lisp_eval_helper @)) $ @
+
+(((fn args)) lisp_eval
+	((fn)        -> Function (" fn ") # @ was not given arguments)
+	((q args)    -> args)
+	((cond args) -> (args) cond @)
+	((fn args)   -> (args) lisp_eval_helper @ fn @)
+	(            -> Whachou chrynna do?)) $ @

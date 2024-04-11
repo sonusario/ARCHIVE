@@ -1,0 +1,54 @@
+>>> // # followed by a number or capital letter(s) is reserved
+>>> // # followed by a number references the stack at a particular index
+>>> // # followed by a letter references distinct values of stack items
+>>> // ## refers to the entire stack
+>>> // empty parens () refers to an empty stack
+>>> //
+>>> (# #) F (#2) // Will replace top two items on the stack, more than to items in the stack can be reference via #- indexing
+>>> (##) F (#-1) // (##) refers to the entire stack and no # reference will be replaced
+>>> (# #) T (#1)
+>>> (#) NOT (F T # @)
+>>> (# #) AND (#2 F #1 @)
+>>> (# #) OR (T #2 #1 @)
+>>> (# #) NAND (#1 #2 AND @ NOT @)
+>>> (# #) NAND (F T #2 @ T #1 @)
+
+>>> (#A #A) eq (T)(F) // Pushes (T) if (#A #A) is matched else pushes (F), (#A #A) is matched if #1 has the same value as #2
+>>> (# # - @) ? (#1 0 eq @)
+
+--
+>>> T F NAND @ .
+.T F AND @ NOT @
+.F NOT @
+.F T F @
+T
+
+--
+>>> T F NAND @ .
+.F T F @ T T @
+.T T T @
+T
+
+or
+
+>>> F T NAND @ .
+.F T T @ T F @
+.F T F @
+T
+
+>>> 3 4 + @ .
+7
+
+>>> 3 4
+>>> +
+>>> @ .
+7
+
+>>> 3
+>>> 4
+>>> +
+>>> @
+>>> .
+7
+
+

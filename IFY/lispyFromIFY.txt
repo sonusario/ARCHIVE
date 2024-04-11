@@ -1,0 +1,60 @@
+>>> a
+a
+
+>>> (a)
+(a)
+
+>>> a# -> lol
+>>> a
+lol
+
+>>> lol# -> "Hello"
+>>> a
+"Hello"
+
+>>> (a) SOL
+Hello
+
+>>> (x y) T# -> x
+>>> T
+T
+
+>>> (a) atom# -> t
+>>> (2+) atom# -> ()
+>>> (a) atom
+t
+
+>>> (a b c) atom
+()
+
+>>> (a a) eq# -> t
+>>> (a b) eq# -> ()
+>>> ((a b c) (a b c)) eq
+t
+
+>>> ((a b) (a b c)) eq
+()
+
+>>> (() ()) eq
+t
+
+>>> (0+) car# -> [0]
+>>> (a b c) car
+a
+
+>>> (0+) cdr# -> [1+]
+>>> (a b c) cdr
+(b c)
+
+>>> (a (0+)) cons# -> (a [1][0+])
+>>> (a (b c)) cons
+(a b c)
+
+>>> (a (b (c ()) cons) cons) cons
+(a b c)
+
+>>> ((a (b c)) cons) car
+a
+
+>>> ((a (b c)) cons) cdr
+(b c)

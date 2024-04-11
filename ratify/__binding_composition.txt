@@ -1,0 +1,103 @@
+((w) cls (w -> cls @)) $ @
+
+
+(( ((arg) fn (cond)) ) add-and-run-track (
+	((<rr> arg) ->
+		(S arg -> arg fn @)
+		(F arg -> F arg)) $ @	)) $ @
+
+((fn) >>= (
+	fn $ @
+	add-and-run-track @
+)) $ @
+
+
+
+
+
+((sf em) validateRequest
+	(S em -> S em)
+	(F em -> F (invalid request))
+	(-> F (uknown error))) $ @
+
+(((email msg)) validateEmail
+	(()		-> F (email address/msg cannot be blank))
+	(		-> S ((email @ gmail.com) # @ msg) @)) $ @
+
+((email) canonicalizeEmail ( email validateEmail @)) $ @
+
+
+
+(((email msg)) dbUpdate
+	(( (stertheblur @ gmail.com) # @ msg) @ -> S (msg)) @
+	(-> F (DB did not update))) @ $ @
+
+((goodmail) updateDbFromRequest (goodmail dbUpdate @)) $ @
+
+
+
+((letter) fillMailbox
+	(() -> F (empty envelope))
+	(-> S letter)) $ @
+
+((letter) sendEmail (letter fillMailbox @)) $ @
+
+
+
+((letter) confirmFormal
+	((Hello World) -> S (CS student recieved!))
+	(-> F (Informal Message))) $ @
+
+((letter) returnMessage (letter confirmFormal @)) $ @
+
+
+
+
+(() executeUseCase
+	(validateRequest @
+	 canonicalizeEmail @
+	 updateDbFromRequest @
+	 sendEmail @
+	 returnMessage @)) $ @
+	 
+
+
+cls @ S (stertheblur Hello World) executeUseCase @
+
+
+(() executeUseCase
+	(validateRequest @
+	 canonicalizeEmail >>= @
+	 updateDbFromRequest >>= @
+	 sendEmail >>= @
+	 returnMessage >>= @)) $ @
+
+cls @ S (stertheblur Hello World) executeUseCase @
+
+
+
+
+-----
+
+
+(( ((args) fn conds lcond) ) ->
+ (
+        ((<rr> arg) ->
+         (S    arg -> arg fn @)
+         (F    arg -> F arg)
+        ) -> @
+ )
+) -> @
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,5 @@
+((x y) T (x @)) def @
+((x y) F (y @)) def @
+
+((:"\( *quote +"a" *\)") lispify (a)) def @
+((:"\( *atom +"(a:("()" #a @)" *\)") (:"\( +atom +"a" *\)") lispify (t) (())) def @

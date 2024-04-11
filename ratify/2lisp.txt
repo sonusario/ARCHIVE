@@ -1,0 +1,335 @@
+((c) cls (c -> cls @)) $ @
+
+(() () () cls @ 1) @
+(a (b c) d cls @ 2) @
+(a b cls @ c d 3) @
+(a e (b cls @) c d 4) @
+
+
+(((lst)) rp (-> lst)) $ @
+rp @
+
+((c) rem (->)) $ @
+rem @ rem @ rem @
+
+rp
+
+((a b) swap (-> b a)) $ @
+
+(a b swap @
+a (b) swap @) @ rem
+
+================== LISP ========================== (still need defun)
+
+((c) cls (c -> cls @)) $ @
+(((lst)) rp (-> lst)) $ @
+
+(((w)) atom
+	(( ) -> T)
+	((w) -> ())
+	(    -> T)) $ @
+
+((1 2) eq
+	(2 1 -> T)
+	(    -> ())) $ @
+
+(((first rest)) car (-> first)) $ @
+
+(((first rest)) cdr (-> (rest))) $ @
+
+((toFirst (rest)) cons (-> (toFirst rest))) $ @
+
+
+
+(((data)) remove_parens (-> data)) $ @
+((x y) T (-> x)) $ @
+((x y) F (-> y)) $ @
+((LB) isTorF
+	(() -> F)
+	(T  -> T)) $ @
+
+
+
+(((((function data) out) rest)) cond (-> (out) ((rest) cond @) data function @ isTorF @ @ remove_parens @)) $ @
+
+( ((params) (exprs)) lambda ( ((params) -> ((exprs) lisp_eval @)) $ @ )) $ @ 			"meh"
+
+(((function data)) lisp_eval
+	((atom data) -> data   atom @)
+	((eq   data) -> data   eq   @)
+	((car  data) -> data   car  @)
+	((cdr  data) -> data   cdr  @)
+	((cons data) -> data   cons @)
+	((cond data) -> (data) cond @)) $ @
+
+((label (params) (expr)) defun ( ((params) label ((expr) lispr @)) $ @ )) $ @
+
+lispr TBD => fully evaluates list and sub list
+
+stick data in parens (data) and then iterate over it
+sub lists will need to be checked for eval potential, done recursively
+
+starting from the back requires fbl
+
+=============== for testing ==============
+cls @
+
+(cond ((eq a a) first)
+      ((atom a) second)) lisp_eval @
+(cond ((eq a b) first)
+      ((atom a) second)) lisp_eval @
+
+(cons a (b c)) lisp_eval @
+(cons (a) (b c)) lisp_eval @
+
+(cdr (a b c)) lisp_eval @
+(car (a b c)) lisp_eval @
+
+(eq a a) lisp_eval @
+(eq (a) (a)) lisp_eval @
+(eq (a) (b)) lisp_eval @
+
+(atom a) lisp_eval @
+(atom (a)) lisp_eval @
+(atom ()) lisp_eval @
+
+=========== first second ( a b c ) ( ( a ) b c) ( b c ) a T T F  T F  T =================
+=========== first second ( a b c ) ( ( a ) b c) ( b c ) a T T () T () T =================
+==========================================
+
+((b) NOT (-> F T b @)) $ @
+((b) NOT
+	(F -> T)
+	(T -> F)) $ @
+
+==========================================
+((c) cls (c -> cls @)) $ @
+((c) rem (->)) $ @
+(((lst)) rp (-> lst)) $ @
+
+(((first rest)) car (-> first)) $ @
+((toFirst (rest)) cons (-> (toFirst rest))) $ @
+
+
+(((f r)) rL (-> (r f))) $ @
+
+(() 0 (-> (0 1 2 3 4 5 6 7 8 9))) $ @
+(() 1 (-> 0 @ rL @)) $ @
+(() 2 (-> 1 @ rL @)) $ @
+(() 3 (-> 2 @ rL @)) $ @
+(() 4 (-> 3 @ rL @)) $ @
+(() 5 (-> 4 @ rL @)) $ @
+(() 6 (-> 5 @ rL @)) $ @
+(() 7 (-> 6 @ rL @)) $ @
+(() 8 (-> 7 @ rL @)) $ @
+(() 9 (-> 8 @ rL @)) $ @
+
+((n m) radd
+	(0 m -> m @ car @)
+	(1 m -> 0 m @ rL @ car @ radd @)
+	(2 m -> 1 m @ rL @ car @ radd @)
+	(3 m -> 2 m @ rL @ car @ radd @)
+	(4 m -> 3 m @ rL @ car @ radd @)
+	(5 m -> 4 m @ rL @ car @ radd @)
+	(6 m -> 5 m @ rL @ car @ radd @)
+	(7 m -> 6 m @ rL @ car @ radd @)
+	(8 m -> 7 m @ rL @ car @ radd @)
+	(9 m -> 8 m @ rL @ car @ radd @)) $ @
+
+((a b) + (-> a b radd @)) $ @
+((a b c) 3val (-> a c b @)) $ @
+
+((a b) swapRP (-> b rp @ a)) $ @
+(((lst)) last (-> (lst (cls @) swapRP @) @ rp @)) $ @
+(((lst)) front (-> (lst rem @) @)) $ @
+
+((lst) rR (-> lst last @ lst front @ cons @)) $ @
+((n m c) nradd
+	(n m 0 -> m)
+	(n m c -> n n m radd @ c @ rR @ car @ nradd @)) $ @
+
+((n m) madd
+	(n 1 -> n)
+	(1 m -> m)
+	(-> n n m @ rR @ car @ nradd @)) $ @
+
+((a b) * (-> a b madd @)) $ @
+
+((n) 2sComp
+	(0 -> 0)
+	(1 -> 9)
+	(2 -> 8)
+	(3 -> 7)
+	(4 -> 6)
+	(5 -> 5)
+	(6 -> 4)
+	(7 -> 3)
+	(8 -> 2)
+	(9 -> 1)) $ @
+
+((n m) - (n m 2sComp @ + @)) $ @
+
+=== MATH TEST ===
+
+0 * 0 3val @
+0 * 1 3val @
+0 * 2 3val @
+0 * 3 3val @
+0 * 4 3val @
+0 * 5 3val @
+0 * 6 3val @
+0 * 7 3val @
+0 * 8 3val @
+0 * 9 3val @
+1 * 0 3val @
+1 * 1 3val @
+1 * 2 3val @
+1 * 3 3val @
+1 * 4 3val @
+1 * 5 3val @
+1 * 6 3val @
+1 * 7 3val @
+1 * 8 3val @
+1 * 9 3val @
+2 * 0 3val @
+2 * 1 3val @
+2 * 2 3val @
+2 * 3 3val @
+2 * 4 3val @
+3 * 0 3val @
+3 * 1 3val @
+3 * 2 3val @
+3 * 3 3val @
+4 * 0 3val @
+4 * 1 3val @
+4 * 2 3val @
+5 * 0 3val @
+5 * 1 3val @
+6 * 0 3val @
+6 * 1 3val @
+7 * 0 3val @
+7 * 1 3val @
+8 * 0 3val @
+8 * 1 3val @
+9 * 0 3val @
+9 * 1 3val @
+
+result
+---
+0 0 0 0 0 0 0 0 0 0 0 1 2 3 4 5 6 7 8 9 0 2 4 6 8 0 3 6 9 0 4 8 0 5 0 6 0 7 0 8 0 9 
+
+======================================================================================
+
+((x y) T (-> x)) $ @ 
+((x y) F (-> y)) $ @
+((c) cls (c -> cls @)) $ @
+( ((lst_content)) rp (-> lst_content)) $ @
+((b) NOT (-> F T b @)) $ @
+((1 2) eq
+	(2 1 -> T)
+	(    -> F)) $ @
+((d) dup (-> d d)) $ @
+( ((q)) quote (-> (q)) ) $ @
+
+((exp env) ratify (-> env rp @ exp @)) $ @
+
+( ((f b l)) reverser
+	(() ->)
+	((f) -> f)
+	((f b l) -> l (b) reverser @ f)
+	(-> l b f)) $ @
+
+((lst) reverse (-> ( lst reverser @) @) ) $ @
+
+( 1 2 T @ 3 4 F @)
+
+( ((x y) T (-> x)) $ @ ((x y) F (-> y)) $ @ )
+
+cls @ (a b c d e) reverse @
+cls @ (a () c d e) reverse @
+cls @ (a b () d e) reverse @
+cls @ (a () c d) reverse @
+
+((n) fun_maker (-> ((x) -> (-> x + n 3val @)) $ @)) $ @
+((n) add2 (-> n 2 fun_maker @)) $ @
+
+cls @
+
+=============================================================================
+======================== anon cls ===========================================
+
+1 2 3 4 ((c f) -> (-> ((() -> (->))) (f f) (f) ()
+						((1 2) ->
+							(   2 1 -> (((x) (y)) -> (-> x)) $ @   )
+							(       -> (((x) (y)) -> (-> y)) $ @   )) $ @
+						$ @))
+((v f) -> (-> v f f $ @)) $ @ 5 6 7 8
+
+
+
+((a b) swapRP (-> b rp @ a))
+
+( ((inputs fname condouts final)) rec (->  (inputs -> condouts final) $ @ (((inputs fname condouts final) rec @) ()) swapRP @ fname eq @ @ rp @)) $ @
+
+=================================================
+
+cls @
+
+2 3 ((x) -> (-> ((y) -> (-> x y + @)) $ @)) $ @
+
+=================================================
+
+((c) cls (c -> cls @)) $ @
+(((lst)) rp (-> lst)) $ @
+
+(((w)) atom
+	(( ) -> T)
+	((w) -> ())
+	( w  -> T)
+	(    ->  )) $ @
+
+((1 2) eq
+	(2 1 -> T)
+	(    -> ())) $ @
+
+(((first rest)) car (-> first)) $ @
+(((first rest)) cdr (-> (rest))) $ @
+((toFirst (rest)) cons (-> (toFirst rest))) $ @
+
+(((data)) remove_parens (-> data)) $ @
+((x y) T (-> x)) $ @
+((x y) F (-> y)) $ @
+((LB) isTorF
+	(() -> F)
+	(T  -> T)) $ @
+
+( ((((fn data) out) rest)) cond
+	( (((T data) out) rest) -> (out lisp_eval @)
+	(-> (out lisp_eval @) ((rest) cond @)
+		(fn data) lisp_eval @ isTorF @ @ remove_parens @)) $ @
+
+((label (params) (expr)) defun ( ((params) label ((expr))) $ @ )) $ @
+
+( ((function data)) lisp_eval
+	((cond data) -> (data) cond @)
+	((defun data) -> data defun @)
+	(-> ((function data)) ((data) lispr @ function @ lisp_eval @) (q function) (q function @) @ eq @ isTorF @ @ remove_parens @ )) $ @
+
+( ((H B L)) lispr
+	(()      -> )
+	((H)     -> (H) (H lisp_eval @) H atom @ isTorF @ @ remove_parens @)
+	((H B)   -> (H) lispr @ (B) (B lisp_eval @) B atom @ isTorF @ @ remove_parens @)
+	((H B L) -> (H B) lispr @ (L) (L lisp_eval @) L atom @ isTorF @ @ remove_parens @)) $ @
+
+
+
+(defun subst (x y z)
+	(cond ((atom z)
+	       (cond ((eq z y) x)
+		      (T z)))
+	      (T (cons (subst x y (car z))
+		       (subst x y (cdr)))))) lisp_eval @
+
+(subst m b (a b (a b c) d)) lisp_eval @
+
+

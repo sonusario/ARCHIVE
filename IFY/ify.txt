@@ -1,0 +1,156 @@
+//Special characters {(,),#,$,->,.,\,} //@ and %?% to be included
+//Keywords {ASM, DEL, FILE, GRFX, GUI, ISEC, MATH, NET, SOL, TRGT}
+//Builtin types {OCTONIONS, STRINGS}
+
+//# assign value or function and marks recurrsion
+//$ establishes new class/type
+
+>>> f# -> ((x y) -> y)
+>>> (a b) f
+b
+
+>>> (x y) F# -> y
+>>> (x y) T# -> x
+>>> (b) NOT# -> (F T) b
+>>> (p q) AND# -> (q F) p
+>>> (p q)  OR# -> (T q) p
+>>> (p q) NAND# -> ((p q) AND) NOT
+>>> (p q) NAND# -> (((F T) q) T) p
+
+>>> x# -> 4
+>>> x
+4
+
+>>> y# -> 3
+>>> y
+3
+
+>>> (x y) +
+7
+
+>>> (name age salary) employee$ ->
+        ((this$.name# -> name)
+         (this$.age# -> age)
+         (this$.salary# -> salary)
+         (this$.growsOlder# ->
+             (this$.age# -> (this$.age 1) +))
+         (this$.getsRaise# ->
+             (this$.salary# -> (this$.salary 100) +))
+        )
+
+>>> x# -> ("Sterling" 26 50000) employee
+>>> x.age
+26
+
+>>> x.name
+"Sterling"
+
+>>> x.salary
+50000
+
+>>> x.growsOlder
+>>> x.age
+27
+
+>>> x.getsRaise
+>>> x.salary
+50100
+
+>>> x# -> 3
+>>> (a) ++# -> (a# -> (a 1) +)
+>>> (x)++
+>>> x
+4
+
+>>> y# -> "T"
+>>> (y) flip# -> (y# -> ("F" "T") (y "T") eq)
+>>> y
+"T"
+>>> (y) flip
+>>> y
+"F"
+
+>>> //still needs list indexing, loops/recursion, scope, branching conditionals
+>>> // dictionaries, mapping
+>>> // and overloading spec (I've already been doing it, but it should be spelled out)
+>>> //console, gui, graphics, networking, system, folders/files
+
+>>> (n) fac# -> (1 ((n (((n 1) -) fac#)) *)) (n) iz
+>>> (5) fac
+120
+
+>>> (n) fac# -> (1 ((n ((n 1) -) fac#) *)) (n) iz
+>>> (5) fac
+120
+
+>>> fac
+fac
+
+>>> () fac
+() fac
+
+>>> (3 a 4) fac
+(3 a 4) fac
+
+>>> x# -> 3
+>>> () x# -> (x# -> (x 1) +)
+>>> x
+3
+
+>>> () x
+>>> x
+4
+
+>>> x# -> (x# -> 1)
+>>> x
+>>> x
+1
+
+>>> x# -> 3
+>>> () x# -> (() x# -> (x 1) +)
+>>> x
+3
+
+>>> () x
+>>> x
+3
+
+>>> () x
+4
+
+>>> x# -> 5
+>>> () x
+6
+
+>>> Ifyify (Disgusting :D)
+>>> (print#(x))# -> (x) SOL
+>>> ((+# a b))# -> (a b) +
+>>> print("Hello world")
+Hello world
+
+>>> (fn)
+
+>>> //Forthify (to be discovered)
+
+>>> //Rustify (Under construction)
+>>> x# -> (1) i32
+>>> y# -> (13i32) i32
+>>> f# -> (1.3f64) f64
+>>> implicit_x# -> 1
+>>> implicit_y# -> 1.3
+>>> sum# -> (x y 13) +
+>>> sum
+27
+
+>>> immutable# -> (1) IMUT
+>>> x# -> ("hello world!") &str
+
+>>> //Prologify (Under construction)
+>>> pdb@? -> (list_length([],0).
+              list_length([_|Ls], N) :-
+                  N #> 0,
+                  N #= N0 + 1,
+                  list_length(Ls, N0).
+             )
+>>> () -> (pdb ?- list_length([a,b,c], L))
+L = 3

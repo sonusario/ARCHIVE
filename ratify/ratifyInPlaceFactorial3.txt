@@ -1,0 +1,53 @@
+[(\#cnt \#end inc act)
+ (cnt end inc act)
+ LOOP
+ ()
+ (cnt end inc act LOOP @ [cnt cnt @ inc @] act @)
+]
+
+[(0)
+ (n)
+ FAC
+ (1)
+ (ans @ cnt n 1 + @ (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 1] [ans 1])
+]
+
+3 FAC @
+---
+ans @ cnt 3 1 + @ (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 1] [ans 1]
+ans @ cnt 3 1 + @ (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 1]
+ans @ cnt 3 1 + @ (1 + @) ([ans ans @ cnt @ * @]) LOOP @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] ([ans ans @ cnt @ * @]) @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans ans @ cnt @ * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans ans @ 1 * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans 1 1 * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans 1]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ 1 + @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 1 1 + @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 2]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] ([ans ans @ cnt @ * @]) @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans ans @ cnt @ * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans ans @ 2 * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans 1 2 * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans 2]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ 1 + @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 2 1 + @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 3]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] ([ans ans @ cnt @ * @]) @
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans ans @ cnt @ * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans ans @ 3 * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans 2 3 * @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @] [ans 6]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ (1 + @) @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt cnt @ 1 + @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 3 1 + @]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @ [cnt 4]
+ans @ cnt 4 (1 + @) ([ans ans @ cnt @ * @]) LOOP @
+ans @
+---
+6

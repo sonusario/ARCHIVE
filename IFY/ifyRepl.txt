@@ -1,0 +1,150 @@
+>>> 3
+3
+
+>>> (1 1) +
+2
+
+>>> (8 1) -
+7
+
+>>> (10 2) *
+20
+
+>>> (35 5) /
+7
+
+>>> (2 3) ^
+8
+
+>>> ((1 3) + 2) *
+8
+
+>>> (True) not
+False
+
+>>> (False) not
+True
+
+>>> (True False) and
+False
+
+>>> (False True) or
+True
+
+>>> (1 1) eq
+True
+
+>>> (2 1) eq
+False
+
+>>> (0 1) True
+0
+
+>>> (1 0) True
+1
+
+>>> (0 1) False
+1
+
+>>> (1 0) False
+0
+
+>>> (20 20) <>
+0
+
+>>> (10 200) <>
+-1
+
+>>> (200 10) <>
+1
+
+>>> a# -> (1 2 3 4)
+>>> b# -> a
+>>> (b a) id
+True
+
+>>> (b a) eq
+True
+
+>>> b# -> (1 2 3 4)
+>>> (b a) id
+False
+
+>>> (b a) eq
+True
+
+>>> "Hello World!"
+"Hello World!"
+
+>>> "Hello" "World!"
+"HelloWorld!"
+
+>>> "This is a string"[0]
+"T"
+
+>>> ("This is a string") len
+16
+
+>>> ("Hello World!") SOL.out
+Hello World!
+
+>>> inString# -> ("Enter some data: ") SOL.in
+>>> someVar# -> 5
+
+>>> ("yahoo!" 2 ) (3 2) >
+"yahoo!"
+
+>>> li -> ()
+>>> otherLi -> (4 5 6)
+>>> (otherLi) len
+3
+
+>>> (li) len
+0
+
+>>> someVar# -> 5
+>>> (
+..>  (("someVar is totally bigger than 10.") SOL.out)
+..>  ((
+..>   (("someVar is smaller than 10.") SOL.out)
+..>   (("someVar is indeed 10.") SOL.out)
+..>  )(someVar 10) <)
+..> ) (someVar 10) >
+
+someVar is smaller than 10.
+
+>>> (x y) add# -> (x y) +
+>>> (5 6) add
+11
+
+>>> (..) varargs -> (..)
+>>> varargs(1 2 3)
+(1 2 3)
+
+>>> (x y) swap# -> (y x)
+>>> (x) makeAdder# -> ((y) adder -> (x y) +)
+>>> add_10# -> (10) makeAdder
+>>> (3) add_10
+13
+
+>>> (3) ((x) -> (x 2) >)
+True
+
+>>> (2 1) ((x y) -> ((x 2)^ (y 2)^) +)
+5
+
+>>> (16 2) root
+4
+
+>>> (name) Human$ -> (
+..>     ($.species# -> "H. sapiens")
+..>     (this$.name# -> name)
+..>     (this$._age# -> 0)
+..>     ((msg) this$.say# -> (this$.name ": " this$.msg) SOL.out)
+..>     (this$.sing# -> "yo... yo... microphone check... one two... one two...")
+..>     ($.get_species# -> $.species)
+..>     (grunt# -> "*grunt*")
+..>     //others
+..>     )
+
+>>> //to be continued

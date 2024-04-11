@@ -1,0 +1,34 @@
+((w) cls (w -> cls @)) $ @
+
+cls @
+
+(((f r)) first (f)) $ @
+
+(((f r)) rest ( (r) )) $ @
+
+(((f b l)) last ((l f b) first @)) $ @
+
+(((f b l)) rm-last ((l f b) rest @)) $ @
+
+(( (p fn conds lcond) (ep efn econds elcond) ) edit_env ( (ep efn econds elcond (fn -> (p -> conds lcond) $ | @ ) ) )) $ @
+
+(( (stbl) env (rf rb (rl)) ) unguard ((rl stbl) env (rf rb))) $ @
+
+(( (s t b l) env (rf rs rb rl) ) eval
+	((s t b l) env (rf rs rb #) -> (  s t b l) env (rf rs rb # @) @)
+	((s t b l) env (rf rs rb %) -> (  s t b l) env (rf rs rb % @) @)
+	((s t b l) env (rf rs rb |) -> (@ s t b l) env (rf rs rb) eval @)
+	((s t b l) env (          ) -> (  s t b l) env () ratify @)
+        (                           -> (  s t b l) env (rf rs rb rl env $ @) @ unguard @ ratify @)) $ @
+	
+
+(( (f s t b l) env (rf rs rb rl)) ratify
+	((	   ) env (rf rs rb rl) -> (rf rs rb rl))
+	(($ | @ b l) env (rf rs rb rl) -> (    b l) (rf rs rb rl) last @ env edit_env @ (rf rs rb rl) rm-last @ ratify @)
+	(($ @ t b l) env (rf rs rb rl) -> (  t b l) (rf rs rb rl) last @ env edit_env @ (rf rs rb rl) rm-last @ ratify @)
+	((@ s t b l) env (rf rs rb rl) -> (s t b l) env (rf rs rb rl) eval @)
+	(                              -> (s t b l) env (rf rs rb rl f) ratify @)) $ @
+
+( ((a b) swap (b a)) $ @ 1 2 swap @ ) ((fname) ->) () ratify @
+
+note anon and built ins
