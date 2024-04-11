@@ -7,7 +7,8 @@ buggy and incomplete code to go around, along with a severe lack of comments to
 aide in understanding the not-entirely-descriptive names. I don't plan on
 updating any of the code, but I have made a few minor changes. Most of the code
 is written by me, but there may be instances, such as when following tutorials,
-where I copied code.
+where I copied code. That being said I may add comments over time upon request
+or as I see fit.
 
 If you have any questions feel free to ask.
 
