@@ -14,3 +14,9 @@ If you have any questions feel free to ask.
 
 Best regards,<br>
 Sterling
+
+## Project Samples
+
+An [interpreter](https://github.com/sonusario/The-Sterling-Python-Archive/tree/main/The-Archive/ratify/ratify_py) for the Ratify programming language.
+
+[Solution finder](https://github.com/sonusario/The-Sterling-Python-Archive/tree/main/The-Archive/Daily/GameSolvers/CalculatorTheGame) for Calculator: The Game
